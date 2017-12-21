@@ -21,32 +21,59 @@ The Eq. \ref{eq:6D_obj_pose_1} is a manipulated version of \ref{eq:6D_obj_pose_0
 	\centering
 	\begin{subfigure}{.5\textwidth}
   		\centering
-  		\includegraphics[width=.8\linewidth]{figures/2_benchmarks_and_metrics/pinhole_geometry_3D}
+  		\includegraphics[width=.9\linewidth]{figures/2_benchmarks_and_metrics/pinhole_geometry_3D}
   		\caption{3D view}
-  		\label{fig:sub1}
+  		\label{fig:pinhole_geometry3D}
 	\end{subfigure}%
 	\begin{subfigure}{.5\textwidth}
   		\centering
-  		\includegraphics[width=.8\linewidth]{figures/2_benchmarks_and_metrics/pinhole_geometry_2D}
+  		\includegraphics[width=.9\linewidth]{figures/2_benchmarks_and_metrics/pinhole_geometry_2D}
   		\caption{2D view}
-  		\label{fig:sub2}
+  		\label{fig:pinhole_geometry2D}
 	\end{subfigure}
 	\caption{\textbf{Pinhole Camera Geometry.} In (A) the geometry of the pinhole camera in 3D view, in (B) its 2D representation.}
-	\label{fig:test}
+	\label{fig:pinhole_geometry}
 \end{figure}
 
-Each object pose estimate can also be projected back to the camera image plane. This projection between the 3D space and the 2D space of the image plane is achieved by applying the projection obtained with a given camera matrix model. The camera model that we consider here is the so called Pinhole Camera Model, and it's geometry is depicted in Figure 
+Each object pose estimate can also be projected back to the camera image plane. This projection between the 3D space and the 2D space of the image plane is achieved by applying the projection obtained with a given camera matrix model. The camera model that we consider here is the so called Pinhole Camera Model, and it's geometry is depicted in Figure \ref{fig:pinhole_geometry}.
 
-Given this first formulation for the 6D pose of an object, and its relative pose within the image plane, we can now address the problem of defining how good is a pose estimate.
+The mapping from the coordinates of a 3D point $P$ to the 2D image coordinates of the point's projection onto the image plane, according to the pinhole camera model is given by:
+
+\begin{equation}
+    \label{eq:3D_to_2D_mapping}
+    x_i = \left[ \begin{array}{c} u \\ v \end{array} \right] = \dfrac{f}{x_3} \left[ \begin{array}{c} x_1 \\ x_2 \end{array} \right]
+\end{equation}
+
+In Eq. \ref{eq:3D_to_2D_mapping} $x_1, x_2, x_3$ represent the 3D position in space of a generic point, $f$ is the focal length of the camera, and $u, v$ are the image coordinates obtained after the projection.
+
+The formulation just explained is for an ideal pinhole camera located in the origin and with focal length equal for the $x$ and $y$ axes of the image. Typically, the situation is different, and the more generic formulation is like the following:
+
+\begin{equation}
+    \label{eq:generic_pinhole_camera_model}
+    x_i = \left[ \begin{array}{c} u \\ v \\ 1 \end{array} \right] = \begin{bmatrix} f_x & 0 & c_x \\ 0 & f_y & c_y \\ 0 & 0 & 1 \end{bmatrix} \left[ \begin{array}{c} x_1 \\ x_2 \\ x_3 \end{array} \right]
+\end{equation}
+
+In Eq. \ref{eq:generic_pinhole_camera_model} the camera is formulated using its internal parameter $f_x, f_y, c_x, c_y$ that represent respectively the two focal lengths on the $x, y$ image axis and the camera optical center $(c_x, c_y)^T$.
+
+With Eq. \ref{eq:3D_to_2D_mapping} and \ref{eq:generic_pinhole_camera_model} we can project each point of the 3D object model onto the image plane and compare the estimated pose with the ground truth one following one of the metrics that are going to be explained in the sections below.
 
 \section{Metrics}\label{sec:metrics}
+The problem of evaluating how good is a pose estimate w.r.t. the ground truth is a challenging and still very open topic in computer vision community.  Taking inspiration from \cite{hodan20166DPoseEstimation} we will first focus on bounding box estimates comparison and then will pass to the more complex and challenging problem of compare two object 6D pose estimate.
 
+\subsection{2D Intersection over Union (IoU)}\label{subsec:iou}
+To do ...
+
+\subsection{5cm, 5deg criteria}\label{subsec:5cm5deg}
+To do ...
+
+\subsection{Average Distance (AD)}\label{subsec:average_distance}
+To do ...
 
 \section{Industrially oriented Datasets}\label{sec:datasets}
 To do ...
 
 \subsection{T-LESS Dataset}\label{subsec:tless_dataset}
-To do ...
+T-LESS Dataset \cite{hodan2017tless}.
 
 \subsection{MVTec ITODD}\label{subsec:mvtex_itodd}
 To do ...
