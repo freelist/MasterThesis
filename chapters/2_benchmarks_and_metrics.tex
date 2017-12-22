@@ -75,9 +75,9 @@ The most common way to measure accuracy of object detection in 2D domain is to c
     s_{IOU}(\hat{B}, \bar{B}) = \dfrac{area(\hat{B} \cap \bar{B})}{area(\hat{B} \cup \bar{B})}
 \end{equation}
 
-In Eq. \ref{eq:iou_score} $\hat{B}$ and $\bar{B}$ are the estimated and ground truth 2D region respectively. Depending on the task, $\hat{B}$ and $\bar{B}$ can be rectangular regions (given by bounding boxes) or segmentation masks. For evaluation of 6D object pose estimates, the 2D regions can be obtained by projection of the object model $\mathit{M}$ in the estimated pose $\hat{P}$ and the ground truth pose $\bar{P}$ . Such pose error function is ambiguity-invariant, but since it operates in the projective space, it provides only a weak information about fitness of the object surface alignment. That basically means that every projection of the model that realizes in the same bounding box will have the very same score, even if the object is completely flipped among the two 6D poses. That is the reason why we only consider IoU for 2D measurement comparison, and so, only for object detection tasks, where just the location of the object within the image plane is considered to be interesting, not its exact position and orientation in 3D space.
+In Eq. \ref{eq:iou_score} $\hat{B}$ and $\bar{B}$ are the estimated and ground truth 2D region respectively. Depending on the task, $\hat{B}$ and $\bar{B}$ can be rectangular regions (given by bounding boxes) or segmentation masks. For evaluation of 6D object pose estimates, the 2D regions can be obtained by projection of the object model $\mathit{M}$ in the estimated pose $\hat{P}$ and the ground truth pose $\bar{P}$ . Such pose error function is ambiguity-invariant, but since it operates in the projective space, it provides only a weak information about fitness of the object surface alignment. That basically means that every projection of the model that realizes in the same bounding box will have the very same score, even if the object is completely flipped among the two 6D poses. It is said that the IoU score is not ambiguity-invariant, we will see in the further section what ambiguity is. 
 
-Examples of bounding boxes comparison, so IoU estimation is given in Figure \ref{fig:iou_example}. Usually a object detection is considered correct, when the IoU score of 2D bounding boxes of an object in the estimated and the ground truth pose is above a
+That is the reason why we only consider IoU for 2D measurement comparison, and so, only for object detection tasks, where just the location of the object within the image plane is considered to be interesting, not its exact position and orientation in 3D space. Examples of bounding boxes comparison, so IoU estimation is given in Figure \ref{fig:iou_example}. Usually a object detection is considered correct, when the IoU score of 2D bounding boxes of an object in the estimated and the ground truth pose is above a
 threshold (e.g. 0.5).
 
 \subsection{5cm, 5deg criteria}\label{subsec:5cm5deg}
@@ -95,7 +95,43 @@ More in detail, the aforementioned $e_{TE}$ and $e_{RE}$ can be mathematically e
     e_{RE}(\hat{R}, \bar{R}) = arccos(\dfrac{Tr(\hat{R}\bar{R}^{-1}) - 1}{2})
 \end{equation}
 
-\subsection{Average Distance (AD)}\label{subsec:average_distance}
+In particular, Eq. \ref{eq:translational_error} is simply the squared distance from the 2 points represented by their respective translation vectors $\hat{t}$ and $\bar{t}$, and Eq. \ref{eq:rotational_error} represents the rotational error in the axis-angle representation of the rotation matrices $\hat{R}$ and $\bar{R}$. More over, in $e_{RE}$, the function $Tr()$ is the trace of the rotation matrix.
+
+After the previous formulation, we can now introduce a simple and intuitive criteria for evaluating the goodness of a 6D pose estimate. In \cite{shotton2013coordinate}, the so called \emph{5cm, 5deg} criteria have been introduced. It simply states that it is considered a good pose estimate if and only if $e_{TE} \leq 5cm$ and $e_{RE} \leq 5deg$. Of course, more general formulation of the same criteria can be used, by imposing variable thresholds $t_{TE}$ and $t_{RE}$ in the place of the constants $5cm$ and $5deg$.
+
+This criteria was initially used for evaluating camera pose estimations, and it perfectly fits the case, but in terms of computing the goodness of a 6D object pose estimate, it is not adaptive to object model projections, in the sense that 2 different poses that refer to 2 different model projection onto the image plane can assume the very same $e_{TE}$ and $e_{RE}$, so those errors are still not ambiguity-invariant, as like as the IoU score.
+
+\subsection{Pose Ambiguity Invariant Metrics}\label{subsec:pose_ambig_invariant_metrics}
+Before introducing the idea of Average Distance for model points let's introduce the concept of \emph{Indistinguishable Poses} and \emph{Invariance to Pose Ambiguity}. As anticipated in the last two sections, IoU score and rotational and translational errors are not invariant to pose ambiguities, so let's see what this concern before introducing how we can overcome this issue.
+
+\subsubsection{Indistinguishable Poses}\label{subsubsec:indistinguishable_poses}
+If we take as example a generic object model, call it $M$, we can define a class of \emph{indistinguishable} poses for this model with the following:
+
+\begin{equation}
+    \label{eq:indistinguishable_poses}
+    [P]_{M,I,\epsilon} = {P^{\prime} : d(v_I[PM], v_I[P^{\prime}M]) \leq \epsilon}
+\end{equation}
+
+where $v_I[M] \subseteq M$ is that part of the object model M that is actually visible in the image $I$, that is not self-occluded or occluded by some other object, $d$ is a distance between the surfaces, and $\epsilon$ is a threshold that basically controls the level of detail that we want to achieve in comparing two different views of the same model in the image.
+
+\subsubsection{Invariance to Pose Ambiguity}\label{subsubsec:pose_ambiguity_invariance}
+Pose Ambiguity is a necessary property for a 6D object pose estimator. Given an image $I$, a model $M$ and an estimated pose $\hat{P}$, the error $e(\hat{P}, \bar{P}; M, I)$ is required to be invariant under pose ambiguity iff:
+
+\begin{equation}
+    \label{eq:pose_ambiguity_invariance}
+    \forall \hat{P}^\prime \in [\hat{P}]_{M, I, \epsilon},
+    \forall \bar{P}^\prime \in [\bar{P}]_{M, I, \epsilon} : 
+    e(\hat{P}^\prime, \bar{P}^\prime) \approx e(\hat{P}, \bar{P})
+\end{equation}
+
+where the approximation is given because of the $\epsilon$ tolerance term. A pose error function $e$ that satisfy such property is called \emph{ambiguity-invariant}.
+
+This property is extremely important because an 6D object pose estimator relies its estimates only on the single image, there is no tracking information, and any other spatial relation with the model pose in the image that can distinguish two different pose estimates, so pose ambiguity cannot be removed in any way, that is why we need to model it somehow.
+
+\subsubsection{Average Distance (AD)}\label{subsubsec:average_distance}
+To do ...
+
+\subsubsection{Visible Surface Distance (VSD)}\label{subsubsec:average_distance}
 To do ...
 
 \section{Industrially oriented Datasets}\label{sec:datasets}
