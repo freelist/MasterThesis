@@ -81,7 +81,19 @@ Examples of bounding boxes comparison, so IoU estimation is given in Figure \ref
 threshold (e.g. 0.5).
 
 \subsection{5cm, 5deg criteria}\label{subsec:5cm5deg}
-To do ...
+After having introduced the metrics used for comparing object detection estimates, we now pass to tackle the problem of estimating the ``goodness'' of a 6D pose estimate. In the introduction of chapter \ref{ch:benchmarks_and_metrics} we formulated the pose of an object in 3D space in terms of rotation  matrix and translation vector, as stated in Eq. \ref{eq:6D_obj_pose_1}. From this simple formulation, intuitively, a simple error function can be built, in particular we can consider the error of the estimated pose $\hat{P} = (\hat{R}, \hat{t})$ w.r.t. the ground truth pose $\bar{P} = (\bar{R}, \bar{t})$ as composed by two independent terms, the translational error $(e_{TE})$ and the rotational error $e_{RE}$ respectively. These errors can be used as a metric for the computation of the goodness of a 6D pose estimate.
+
+More in detail, the aforementioned $e_{TE}$ and $e_{RE}$ can be mathematically expressed as:
+
+\begin{equation}
+    \label{eq:translational_error}
+    e_{TE}(\hat{t}, \bar{t}) = \norm{\hat{t} - \bar{t}}_2
+\end{equation}
+
+\begin{equation}
+    \label{eq:rotational_error}
+    e_{RE}(\hat{R}, \bar{R}) = arccos(\dfrac{Tr(\hat{R}\bar{R}^{-1}) - 1}{2})
+\end{equation}
 
 \subsection{Average Distance (AD)}\label{subsec:average_distance}
 To do ...
