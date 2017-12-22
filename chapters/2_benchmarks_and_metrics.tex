@@ -60,8 +60,25 @@ With Eq. \ref{eq:3D_to_2D_mapping} and \ref{eq:generic_pinhole_camera_model} we 
 \section{Metrics}\label{sec:metrics}
 The problem of evaluating how good is a pose estimate w.r.t. the ground truth is a challenging and still very open topic in computer vision community.  Taking inspiration from \cite{hodan20166DPoseEstimation} we will first focus on bounding box estimates comparison and then will pass to the more complex and challenging problem of compare two object 6D pose estimate.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/2_benchmarks_and_metrics/placeholder800x600}
+    \caption{\textbf{IoU score estimation example.} An eample of estimating the 2D bounding box of an object with the Halcon Libraries.} 
+    \label{fig:iou_example}
+\end{figure}
+
 \subsection{2D Intersection over Union (IoU)}\label{subsec:iou}
-To do ...
+The most common way to measure accuracy of object detection in 2D domain is to calculate the Intersection over Union score \cite{everingham2015challenge}:
+
+\begin{equation}
+    \label{eq:iou_score}
+    s_{IOU}(\hat{B}, \bar{B}) = \dfrac{area(\hat{B} \cap \bar{B})}{area(\hat{B} \cup \bar{B})}
+\end{equation}
+
+In Eq. \ref{eq:iou_score} $\hat{B}$ and $\bar{B}$ are the estimated and ground truth 2D region respectively. Depending on the task, $\hat{B}$ and $\bar{B}$ can be rectangular regions (given by bounding boxes) or segmentation masks. For evaluation of 6D object pose estimates, the 2D regions can be obtained by projection of the object model $\mathit{M}$ in the estimated pose $\hat{P}$ and the ground truth pose $\bar{P}$ . Such pose error function is ambiguity-invariant, but since it operates in the projective space, it provides only a weak information about fitness of the object surface alignment. That basically means that every projection of the model that realizes in the same bounding box will have the very same score, even if the object is completely flipped among the two 6D poses. That is the reason why we only consider IoU for 2D measurement comparison, and so, only for object detection tasks, where just the location of the object within the image plane is considered to be interesting, not its exact position and orientation in 3D space.
+
+Examples of bounding boxes comparison, so IoU estimation is given in Figure \ref{fig:iou_example}. Usually a object detection is considered correct, when the IoU score of 2D bounding boxes of an object in the estimated and the ground truth pose is above a
+threshold (e.g. 0.5).
 
 \subsection{5cm, 5deg criteria}\label{subsec:5cm5deg}
 To do ...
