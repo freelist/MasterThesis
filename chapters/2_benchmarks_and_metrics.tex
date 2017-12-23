@@ -129,10 +129,84 @@ where the approximation is given because of the $\epsilon$ tolerance term. A pos
 This property is extremely important because an 6D object pose estimator relies its estimates only on the single image, there is no tracking information, and any other spatial relation with the model pose in the image that can distinguish two different pose estimates, so pose ambiguity cannot be removed in any way, that is why we need to model it somehow.
 
 \subsubsection{Average Distance (AD)}\label{subsubsec:average_distance}
-To do ...
+When the sets of visible points for the model $M$ in the image $I$ is available, one possible solution to estimate how good is the detected pose $\hat{P}$ is to evaluate the average of the maximum of distances between corresponding points of model $M$ for each pose pair $(\hat{P}, \bar{P}) \in Q = [\hat{P}]_{M, I, \epsilon} \times [\bar{P}]_{M, I, \epsilon}$, and finally take the minimum of those average distances:
+
+\begin{equation}
+    \label{eq:average_distance}
+    d_h((\hat{R}, \hat{t}), (\bar{R}, \bar{t}); M) = \dfrac{1}{|M|}  \sum\nolimits_{x_1 \in M} \min_{x_2 \in M} \norm{(\hat{R}x_1 + \hat{t}) - (\bar{R}x_2 + \bar{t})}_2
+\end{equation}
+
+This distance is very intuitive, but not so effective, and we will see whit an example in the following subsection why take the maximum instead of the average, is a more convenient way.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/2_benchmarks_and_metrics/max_av_distances_example}
+    \caption{\textbf{Maximum vs Average Distance.} In this example, it is perfectly shown how taking the maximum instead of the average, is much more convenient. For the mug depicted in the picture, the blue pose (the ground truth), and the red one (the estimation) have very low average distance, while high maximum distance. This explain how maximum distance is more convenient for this case, it reflects better the misalignment between the two poses. The average distance $d_h$ cannot be drawn here, because this distance does not relates with any geometrical points, it's just a score.} 
+    \label{fig:max_av_distances_example}
+\end{figure}
+
+\subsubsection{Maximum Distance (MD)}\label{subsubsec:average_distance}
+As anticipated in the last section, taking the maximum instead of the average, can be more effective, also compared with the task that we want to perform. Imagine to take a mug, like in the example in Figure \ref{fig:max_av_distances_example}, where the Maximum Distance $d_s$ is calculated performing the maximum instead of the average:
+
+\begin{equation}
+    \label{eq:maximum_distance}
+    d_s((\hat{R}, \hat{t}), (\bar{R}, \bar{t}); M) = \max_{x_1 \in M} \min_{x_2 \in M} \norm{(\hat{R}x_1 + \hat{t}) - (\bar{R}x_2 + \bar{t})}_2
+\end{equation}
+
+Whit this little modification to the formulation of the distances, the situation completely changes. In the example in Figure \ref{fig:max_av_distances_example} the distance $d_s$ reflects better the misalignment between the estimated pose and the ground truth. But, is this the right choice? Is this distance reflecting all the necessary when estimating the pose of the mug? In Figure \ref{fig:ds_vs_dp} there is another possible distance that can reflect better the misalignment between ground truth and estimated pose. It is clearly evident that maybe the new distance $d_p$, is better that the maximum distance $d_s$. So we need to find a solution to this problem, and one possible way is to introduce the concept of \emph{equivalence classes}, and then calculate the distances also considering them.
+
+Considers all poses from the equivalence class $[(\hat{R}, \hat{t})]$ of the ground truth pose (given by pre-defined symmetries of the object), we can define the new distance $d_p$ with the following:
+
+\begin{equation}
+    \label{eq:maximum_distance_eq_classes}
+    d_p((\hat{R}, \hat{t}), (\bar{R}, \bar{t}); M) = \min_{(\hat{R}, \hat{t}) \in [(\hat{R}, \hat{t})]} \max_{x \in M} \norm{(\hat{R}x + \hat{t}) - (\bar{R}x + \bar{t})}_2
+\end{equation}
+
+This new distance reflects better the misalignment between ground truth pose and estimated one, facilitating the evaluation of the pose estimate in tasks like robot grasping and others.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/2_benchmarks_and_metrics/ds_vs_dp}
+    \caption{\textbf{Maximum Distance ambiguities.} In this example it is clearly evident that the distance $d_p$ better reflects the misalignment w.r.t. the $d_s$ one.} 
+    \label{fig:ds_vs_dp}
+\end{figure}
 
 \subsubsection{Visible Surface Distance (VSD)}\label{subsubsec:average_distance}
-To do ...
+Do we need actually to perform the evaluation of the distance $d_p$ for all the points of the model $M$. It is actually a very computationally expensive task. That is why we now introduce the concept of \emph{Visible Surface}. The key-point here is to evaluate the distance only on the visible part of the model within the image:
+
+\begin{equation}
+    \label{eq:vis_surf_error}
+    e_{VSD}(\hat{P}, \bar{P}; M, I, \delta, \tau) = avg_{p \in \hat{V} \cup \bar{V}} c(p, \hat{D}, \bar{D}, \tau)
+\end{equation}
+
+In Eq. \ref{eq:vis_surf_error}, $\hat{V}$ and $\bar{V}$ are the 2D masks of the visible surface of the projected models, with the ground truth pose $\hat{P}$ and the estimated pose $\bar{P}$ respectively. $\hat{D}$ and $\bar{D}$ are the \emph{distance images} obtained by rendering the two models in the camera reference frame. $\delta$ is a tolerance threshold used for the computation of the visibility masks, and $c(p, \hat{D}, \bar{D}, \tau) \in [0, 1]$ is the matching cost at pixel $p$:
+
+\begin{equation}
+    \label{eq:matching_cost_at_p}
+    c(p, \hat{D}, \bar{D}, \tau) = \left\{
+\begin{array}{c l}	
+     \dfrac{d}{\tau} & if p \in \hat{V} \cap \bar{V} \wedge d > \tau \\
+     1 & otherwise,
+\end{array}\right.
+\end{equation}
+
+More in detail, in Eq. \ref{eq:matching_cost_at_p}, the distance image $d$ is given by:
+
+\begin{equation}
+    \label{eq:distance_image}
+    d = |\hat{D}(p) - \bar{D}(p)|
+\end{equation}
+
+and it can be easily derived from the two depth images of the ground truth and the estimated poses respectively
+
+In order to better understand the concept of visible surface, and the role of the visibility masks $\hat{V}$ and $\bar{V}$ in the equations \ref{eq:vis_surf_error} and \ref{eq:matching_cost_at_p}, let's take as example the mug depicted in Figure \ref{fig:visibility_mask_ex}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/2_benchmarks_and_metrics/visibility_mask_ex}
+    \caption{\textbf{Visibility Masks Example.} An example of how to compute the visibility mask for the mug in the image.}
+    \label{fig:visibility_mask_ex}
+\end{figure}
 
 \section{Industrially oriented Datasets}\label{sec:datasets}
 To do ...
