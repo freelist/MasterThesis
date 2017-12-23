@@ -209,10 +209,52 @@ In order to better understand the concept of visible surface, and the role of th
 \end{figure}
 
 \section{Industrially oriented Datasets}\label{sec:datasets}
-To do ...
+After having introduced and formulated the metrics used for comparing object detection and pose estimation measurements, we can now introduce some benchmark tools and data used for industrial applications. Typical settings are those with \emph{texture-less} objects, namely, objects that do not present any kind of texture. Given this property, object detectors and pose estimators can rely their estimations only on shape based approaches, without any sort of rbg texture based techniques.
+
+Examples of texture-less datasets are the \emph{T-LESS} Dataset \cite{hodan2017tless} from the Center for Machine Perception of the Czech Technical University of Prague and the \emph{MVTec ITODD Dataset} \cite{mvtec2017itodd} from the same company that distributes the Halcon Libraries.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/2_benchmarks_and_metrics/tless_ex_scenes}
+    \caption{\textbf{T-LESS scenes examples.} A compact view of the scenes present in the T-LESS dataset.}
+    \label{fig:tless_ex_scene}
+\end{figure}
 
 \subsection{T-LESS Dataset}\label{subsec:tless_dataset}
-T-LESS Dataset \cite{hodan2017tless}.
+The T-LESS Dataset \cite{hodan2017tless}, has the name suggests, is a publicly available dataset\footnote{http://cmp.felk.cvut.cz/t-less/index.html} composed by thirty different texture-less objects. All the objects in the dataset are from the industrial scenario and do not present any particular feature, moreover, most of them are also very similar in shape and color.
+
+The dataset is composed by training and test images, the former are represented by RGB and RGB-D images of multiple views of the single object, while the latter are composed by 21 test scenes where the objects are collected together in more cluttered and unstructurated forms. All the scenes, both training and test ones, have been acquired with a fixed sensor setup composed by the following RGB and RGB-D cameras:
+
+\begin{itemize}
+	\item Primesense Carmine 1.09 (Short Range) that provides registered RGB-D images with the following features: RGB:1280x1024 px, Depth:640x480 pixels;
+	\item Microsoft Kinect v2 that provides images with registered depth with 1920x1080 pixels of resolution;
+	\item Canon IXUS 950 IS high resolution camera that provides RGB images of 3264x2448 pixels of resolution.
+\end{itemize}
+
+All the three sensors have been mounted on a fixed structure and a rotating turntable with the objects on top has been built for positioning and rotating the training and test scenes. Examples of acquired scenes are in Figure \ref{fig:tless_ex_scene}.
+
+In the T-LESS data packages also the CAD models of the objects are given to the public. In particular they released two different kind of CAD models:
+
+\begin{itemize}
+	\item Manually created CAD models;
+	\item Automatically reconstructed CAD models.
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/2_benchmarks_and_metrics/tless_objs_ex}
+    \caption{\textbf{T-LESS Objects Samples.} A compact view of the thirty object classes present in the T-LESS dataset.}
+    \label{fig:tless_objs_ex}
+\end{figure}
+
+All the objects presented in the T-LESS dataset are also shown here in Figure \ref{fig:tless_objs_ex}. As like as for our RAW dataset, they organized their objects in multiple scenes, 21 as already mentioned, classified by order of complexity: \emph{easy} and \emph{hard} objects scenes. Each scene has been accurately annotated, and all the objects in it have been localized following the approach explained below:
+
+\begin{enumerate}
+	\item A dense 3D model of the scene was reconstructed with the system from \cite{steinbrucker2014volumetric}. This was accomplished using all 504 RGB-D images of the scene along with the sensor poses estimated using the turntable markers;
+	\item The CAD models were then manually aligned to the scene model;
+	\item To increase accuracy, high-resolution images from Canon camera sensor were used to refine manually all the detected misalignments;
+	\item The final poses were distributed to all the test images with the aid of the known camera-to-turntable coordinate transformations.
+\end{enumerate}
 
 \subsection{MVTec ITODD}\label{subsec:mvtex_itodd}
 To do ...
