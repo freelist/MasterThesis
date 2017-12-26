@@ -16,7 +16,35 @@ Manufacturing is one of the industrial sectors that saw the robotics ``era'' gro
 The importance of robots in the industrial sector is supported also by big companies, such as Amazon, Google and others, that in the last years demonstrated high interests in investing and developing their technologies in order to improve their performance and business. One particular example of how big companies invest in robotics is the Amazon Picking Challenge competition proposed the first time at the International Conference on Intelligent Robots and Systems (IROS) in 2015 by the Amazon Robotics division\footnote{https://www.amazonrobotics.com}. This competition is thought to enhance and improve the research in the robotic manipulation, focusing the attention in grasping from random and highly cluttered environments, such as warehouse shelves or bins full of irregular and messy objects. In Figure \ref{fig:amazon_picking_ch} there are some examples of what are the typical scenarios where the teams that participate to this kind of events have to compete.
 
 \subsection{Random Bin Picking (RBP)}\label{subsec:binpicking}
-To do ...
+Monotonous tasks such as unloading a bin one part at a time into a machine, bulk parts sorting, and order fulfillment are labor-intensive, moreover they can even be dangerous if the parts or operations are heavy, sharp and they change position every time one object is moved away. For years, bin picking robots have been tackling these tedious jobs, but there are still so many applications to be realized.
+
+While more capable than ever, robotic bin picking still has its limitations. It is all matter of accuracy. While robots are applauded for their repeatability, random bin picking requires accuracy in the face of chaos. The robot has to locate a part in free space, in an unstructured environment where the parts keep shifting positions and orientations every time a part is removed from the bin. That requires a delicate balance between robotic dexterity, machine vision, software, computing power to crunch all the data in real time, and a grasping solution to extract the parts from the bin. All those highly technical challenges give to RBP higher complexity and difficulty.
+
+First of all, a brief introduction to all the kinds of Bin Picking must be given. There are three main types of bin picking: structured, semi-structured, and random bin picking. Each presents an increasing level of application complexity, cost and cycle time:
+
+\begin{itemize}
+	\item \textbf{Structured}. Parts are positioned or stacked in the bin in an organized, predictable pattern, so they can be easily imaged and picked.
+	\item \textbf{Semi-Structured}. Parts are positioned in the bin with some organization and predictability to help aid imaging and picking.
+	\item \textbf{Random}. Parts are in totally random positions in a bin, including different orientations, overlapping, and even entangled, further complicating the imaging and picking functions.
+\end{itemize}
+
+From now on we will concentrate on Random Bin Picking, that is the main area in which we tested our work, moreover, the RAW dataset that will be presented later in this thesis and all the developed tools, have been thought for such robotic task in particular.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/1_perception_and_sensing_in_robotics/rbp_example}
+    \caption{\textbf{Random Bin Picking Example.} Robotic random bin picking and part loading system uses 3D vision guided robots with magnetic grippers to locate and pick parts for a heat treating operation.} 
+    \label{fig:rbp_example}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/1_perception_and_sensing_in_robotics/cluttered_env_rbp}
+    \caption{\textbf{Machine vision algorithm execution example in RBP task.} Here, a 3D area sensor is performing localization and recognition of random parts in a bin. Thanks to this technology, the robot should be capable of planning its next pick in the clutter.} 
+    \label{fig:cluttered_env_rbp}
+\end{figure}
+
+An example of a robotic system performing random bin picking operation is depicted in Figure \ref{fig:rbp_example}. In this kind of scenarios, the role of vision is crucial. Vision systems must be capable of recognize, detect and localize the parts with extremely high accuracy. Typical scenarios are like the one in Figure \ref{fig:cluttered_env_rbp}, it's clearly visible how the environment is cluttered, all the parts are randomly spread inside the bin, and the task of recognizing and localizing the next part to be picked, it's extremely difficult. 
 
 \subsection{Pick\&Place Tasks (PPT)}\label{subsec:pickandplace}
 To do ...
