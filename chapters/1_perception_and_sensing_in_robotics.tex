@@ -49,9 +49,17 @@ An example of a robotic system performing random bin picking operation is depict
 \subsection{Pick\&Place Tasks (PPT)}\label{subsec:pickandplace}
 More generic, but with the same importance as the previous one, Pick\&Place (PPT) task is another interesting robotic application in which vision and perception play an important role. Differently from the aforementioned Bin Picking applications, in Pick\&Place scenarios, camera setup is not always fixed, they are mounted on the robotic arm, and the arm itself is not said to be fixed on the ground. 
 
-A clear example of Pick\&Place scenario is the RoboCup@Work Competition, where the robotic arm that performs pick and drop operations with the objects, is actually mounted on a mobile platform that operates in a more large environment.
+A clear example of Pick\&Place scenario is the RoboCup@Work Competition, where the robotic arm that performs pick and drop operations with the objects, is actually mounted on a mobile platform that operates in a more large environment. Another example of robotic Pick\&Place operation are the robot assisted assembly \cite{evangelista2017grounding}, in which the robot assists the human in performing operation in industrial scenarios guided by natural language interaction.
 
-\section{3D Reconstruction}\label{sec:3dreconstruction}
+\section{3D Scene Reconstruction}\label{sec:3dreconstruction}
+In this section we are going to explore some techniques of 3D scene reconstruction for stereo cameras setup. This task has particular importance in the context of machine vision, since many object localization techniques are based on 3D approaches, so efficient methods for reconstructing the scene are needed. We will particularly focus on 3D stereo reconstruction approaches, since our experimental sensor setup is hardly based on this kind of technology, and we tested its performance with such algorithms and methods.
+
+We will now address two techniques, namely \emph{Semi-Global Matching} from \cite{hirschmuller2005SemiGlobal} and\emph{PatchMatch Stereo} from \cite{bleyer2011PatchMatchStereo}. These two techniques have been intensively used as benchmark tools for our RAW dataset and our experimental sensor setup.
+
+\subsection{Semi-Global Matching}\label{subsec:semiglobalmatching}
+To do ...
+
+\subsection{PatchMatch Stereo}\label{subsec:patchmatchstereo}
 To do ...
 
 \section{Object Detection}\label{sec:objectdetection}
