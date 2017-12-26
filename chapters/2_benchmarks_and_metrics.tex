@@ -240,6 +240,13 @@ In the T-LESS data packages also the CAD models of the objects are given to the 
 	\item Automatically reconstructed CAD models.
 \end{itemize}
 
+%\begin{figure}
+%    \centering
+%    \includegraphics[width=0.9\textwidth]{figures/%2_benchmarks_and_metrics/tless_sensor_setup}
+%    \caption{\textbf{T-LESS sensor setup.} The setup of the %sensors used during the acquisition of the T-LESS scenes. In the %picture}
+%    \label{fig:tless_sensor_setup}
+%\end{figure}
+
 \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{figures/2_benchmarks_and_metrics/tless_objs_ex}
@@ -256,5 +263,31 @@ All the objects presented in the T-LESS dataset are also shown here in Figure \r
 	\item The final poses were distributed to all the test images with the aid of the known camera-to-turntable coordinate transformations.
 \end{enumerate}
 
+\begin{figure}
+    \centering
+    \includegraphics[height=0.4\textheight]{figures/2_benchmarks_and_metrics/itodd_sensor_setup}
+    \caption{\textbf{MVTec ITODD Sensor Setup.} In the picture there is a compact view of the fixed sensor setup used for the acquisition of the MVTec ITODD dataset scenes.}
+    \label{fig:itodd_sensor_setup}
+\end{figure}
+
 \subsection{MVTec ITODD}\label{subsec:mvtex_itodd}
-To do ...
+MVTec Industrial 3D Object Detection Dataset, MVTec ITODD \cite{hodan20166DPoseEstimation} in code, is a public dataset for 3D object detection and pose estimation also related to industrial setups, like the previously mentioned T-LESS dataset. The dataset contains 28 object classes, disposed in 800 different scenes, all labeled with 3D rigid transformations with respect to the camera sensors.
+
+The sensors used during the acquisition of the scenes are composed as follow:
+
+\begin{itemize}
+	\item High-Quality 3D sensor: a multi-shot 3D stereo sensor that provided both a depth image and a grayscale image with the same viewpoint of the previous one. This sensor also provided high-quality 3D reconstructed cloud of the scene by using multiple random projected patterns and a spacetime stereo approach for reconstructing the scene with an accuracy of around 100 $\mu m$;
+	\item Low-Quality 3D sensor: very similar to the previous sensor but with a shorter baseline, a wider field of view and less shots per scene. Given those features, the 3D reconstructed scene is much more noisy than the previous one, with an accuracy of around 1-2 mm;
+	\item 3 High.Resolution Cameras: they provided grayscale images, and the scenes where captured twice, one time with the random patterns and the last time without. 
+\end{itemize}
+
+In Figure \ref{fig:itodd_sensor_setup} there is a compact view of the fixed sensor setup used for the acquisition of the scenes in the dataset.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/2_benchmarks_and_metrics/itodd_object_examples}
+    \caption{\textbf{MVTec ITODD Object Classes.} All the 28 object classes of texture-less object used during the acquisition of the MVTec ITODD dataset scenes.}
+    \label{fig:itodd_object_examples}
+\end{figure}
+
+As like as for the T-LESS dataset and the RAW Dataset that we are going to present in the next chapter, the object in the MVTec ITODD dataset are texture-less objects, that is for remarking again the high orientation to the industrial settings of these kind of works. All the object classes used in the MVTec ITODD dataset are depicted in Figure \ref{fig:itodd_object_examples}.
