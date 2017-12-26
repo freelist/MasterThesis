@@ -63,6 +63,41 @@ To do ...
 To do ...
 
 \section{Object Detection}\label{sec:objectdetection}
+In the following sections we will introduce some machine vision algorithms and techniques for object detection. In particular it will be shown a comparison between standard state of the art techniques based on shape-based approaches, and deep learning networks oriented to object detection and recognition.
+
+\subsection{D\textsuperscript{2}{CO} Algorithm}\label{subsec:d2co}
+As already anticipated, standard approaches are based on object shape and appearance. This means that a CAD model of the object is needed, since the algorithm mainly works on edges extraction and some sort of template matching between the projected model and the edges extracted from the image.
+
+An example of standard algorithm that is totally based on shape and edges is the one presented in \cite{imperoli2015d2co}. This is the very same approach used also in RoboCup@Work by the SPQR@Work team for performing the final registration step in the object detection pipeline. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/1_perception_and_sensing_in_robotics/d2co_00}
+    \caption{\textbf{D\textsuperscript{2}CO input data example}. The raster models used in D\textsuperscript{2}CO are computed from the 3D CAD models of the objects.} 
+    \label{fig:d2co_00}
+\end{figure}
+
+The algorithm is called D\textsuperscript{2}{CO}, namely Direct Directional Chamfer Optimization. D\textsuperscript{2}CO refines the object position employing a non-linear optimization procedure, where the cost being minimized is extracted directly from a 3D image tensor composed by a sequence of distance maps. No ICP-like iterative re-association steps are required: the data association is implicitly optimized while inferring the object pose. This approach is able to handle textureless and partially occluded objects and does not require any off-line object learning step: just a 3D CAD model is needed (see Figure \ref{fig:d2co_00}).
+
+The Directional Chamfer Distance (DCD) tensor encodes the minimum distance of an image point to an edge point in a joint direction/location space. Unlike the Chamfer distance, the DCD takes into account also the edges directions, see Figure \ref{fig:d2co_01} for further explanations.
+
+The algorithm extract a set of object candidates by pre-computing the (projected) raster templates along with their image orientations for a large number of possible 3D locations; for each point, it looks up the DCD tensor, computing the template average distance. The templates are then sorted for increasing distances. D\textsuperscript{2}CO finally refines the object position employing a non-linear optimization procedure that minimizes a tensor-based cost function, look at Figure \ref{fig:d2co_02} for a registration example. Then, the Levenberg Marquardt algorithm with a Huber loss function is used in order to reduces the influence of outliers. During the optimization, both the (projected) points position and the (projected) points orientation are constantly updated.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/1_perception_and_sensing_in_robotics/d2co_01}
+    \caption{\textbf{Directional Chamfer Distance}. DCD tensor computation pipeline.} 
+    \label{fig:d2co_01}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/1_perception_and_sensing_in_robotics/d2co_02}
+    \caption{\textbf{D\textsuperscript{2}{CO} Registration Example}. An example of object registration using the D\textsuperscript{2}{CO} algorithm.} 
+    \label{fig:d2co_02}
+\end{figure}
+
+\subsection{Deep Learning Neural Networks for Object Detection}\label{subsec:dl_obj_detection}
 To do ...
 
 \section{State of the art Software Libraries in Industry}\label{sec:industrylibraries}
