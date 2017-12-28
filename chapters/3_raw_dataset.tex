@@ -1,5 +1,29 @@
 \chapter{The RAW Dataset}\label{ch:benchmarks_and_metrics}
-To do ...
+In this chapter the RAW dataset is going to be presented. This dataset has been produced as a requirement of the FlexSight\footnote{http://www.flexsight.eu/} project. FlexSight is a research project founded by the European Community's project ECHORD++\footnote{http://echord.eu/}.  This project involves three main partners: the Ro.Co.Co. Laboratory\footnote{http://www.dis.uniroma1.it/~labrococo/} of DIAG (Department of Computer, Control, and Management Engineering  Antonio Ruberti at Sapienza University of Rome), which provides expertise in software design and development for robotic perception applications; IT+Robotics\footnote{http://www.it-robotics.it/}, which provides expertise in the industrial robotics domain; and Robox\footnote{http://www.robox.it/en-US/}, a company specialized in the development of innovative hardware and software solutions for robotics and control systems. 
+
+More details about the FlexSight project can be found in the Appendix \ref{apx:flexsight} of this thesis.
+
+\section{RAW Dataset Features}\label{sec:raw_features}
+As like as the previous datasets presented in sections \ref{subsec:mvtex_itodd} and \ref{subsec:tless_dataset} also the RAW Dataset has been built for industrial scenarios. The main scope of the RAW Dataset is to build a large and consistent test bed for texture-less object detection and localization algorithms. The name of the dataset is related to the RoboCup@Work competition, which more details are given in the Appendix \ref{apx:robocupatwork}, and it contains all the objects used in the robotic competition plus other objects from other past robotics events, such as the RoCKIn@Work\footnote{http://rockinrobotchallenge.eu/} (Robot Competitions Kick Innovation in Cognitive Systems and Robotics) and ERL\footnote{https://www.eu-robotics.net/robotics\_league/index.html} (European Robotics League). 
+
+As already mentioned, all the objects present in the dataset are texture-less objects and are inspired to the industrial settings, e.g. parts of a motor, bearings, nuts, motor axis and others. A compact view of all the objects present in the dataset is given in Figure \ref{fig:raw_obj_examples}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/3_raw_dataset/raw_obj_examples}
+    \caption{\textbf{RAW Dataset Objects.} A compact view of all the 19 classes of objects present in the RAW Dataset.}
+    \label{fig:raw_obj_examples}
+\end{figure}
+
+The main features of this dataset are the following:
+\begin{itemize}
+	\item \textbf{19 indutry relevant objects}: no discriminative color, no texture, often similar in shape;
+	\item \textbf{3 different sensors}: FlexSight sensor, Microsoft Kinect2, Intel RealSense SR-300;
+	\item \textbf{Test images (7K from each sensor)}: originate from 15 test scenes. The scene complexity varies from simple scenes with several isolated objects to very challenging ones with multiple object instances and a high amount of clutter and occlusion. Images include: RGB and Depth for Kinect2 and RealSense SR-300; 2 grey-scale images (with and without projected laser pattern) for the FlexSight sensor;
+	\item \textbf{19 object 3D CAD models}: all the objects have a specific 3D CAD model.
+\end{itemize}
+
+Each image of the dataset comes with ground truth estimate of all the objects present in the scene. The full 3D position in space, rotation plus translation with respect to the camera frame, has been annotated with a specific protocol that involved both manually intervention of the user by means of our own developed labeling tool and some other automatic procedures for propagating the pose in a given reference frame to all the other images of the dataset.
 
 \section{Setup and Sensors}\label{sec:raw_setup_and_sensors}
 To do ...
