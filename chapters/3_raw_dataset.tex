@@ -130,7 +130,27 @@ On top of the FlexSight sensor, two commercially available 3D sensors have been 
 Moreover, the two sensors have been chosen because they provide different features and can be of major interests for other commercial and common usages. In particular, the Intel Realsense SR300 is a so called \emph{short range} sensor, in the sense that its depth estimation is accurately working in short range, namely $0.2m$ to $1.5m$. While the Microsoft Kinect 2 provides wider range, namely $0.8m$ to $4.5m$.
 
 \section{Acquisition Procedure}\label{sec:raw_acquisition_procedure}
-To do ...
+All the scenes of the RAW Dataset have been acquired following a rigid and specific protocol. In particular, we have defined a set of camera poses by sampling a set of different semi-sphere in the range of $(85cm, 95cm)$ from the surface where the objects are placed. From the set of all the extrapolated poses we then developed a automatic collision-check procedure that eliminated all the poses where the robot body and the experimental FlexSight Sensor collide with the any of the elements of the cell.
+
+At the end of the first automatic pose check procedure, more than 500 poses have been selected, then we manually tested all those poses and manually double checked all obtaining at the end 465 different camera poses.
+
+With the list of all the poses and the robot and sensor setup safely working we started the acquisition of the 15 scenes of the dataset. The acquisition of each single scene was divided in two separated steps:
+
+\begin{itemize}
+	\item \textbf{FlexSight + Realsense Acquisition}: in this phase we only acquired images and depth images from the FlexSight sensor and the Intel Realsense SR300.
+	\item \textbf{Kinect 2 Acquisition}: in this phase we only acquired images and depth images from Microsoft Kinect 2.
+\end{itemize}
+
+This separated sequence was decided in order to solve the laser interference among the two commercial sensor, the Microsoft Kinect 2 and the Intel Realsense SR300. Since those sensors are basically structured light based sensors, they work with internal laser patterns projectors, and they basically work in the same frequency ranges, that is why we experienced some interference in the depth images of both and decided to completely turn off the other sensor while the first was performing the acquisition.
+
+For the FlexSight sensor we also split the acquisition in two different phases, namely with and without the projected laser pattern. Moreover, for each frame acquisition we took 4 different images that differs only for exposure time of the two cameras, namely $800{\mu}s, 2400{\mu}s, 10000{\mu}s$ and $52000{\mu}s$. In this way we can provide to all the future users of the RAW dataset the possibility to work both with the individual acquisitions or performing some HDR image manipulation using all the 4 acquisitions. An example of acquisition sequence from the FlexSight sensor is given in Figure \ref{fig:fs_sensor_sequence}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/3_raw_dataset/fs_sensor_sequence}
+    \caption{\textbf{FlexSight Sensor Acquisition Sequence}. From left to right: the acquisitions with $800{\mu}s, 2400{\mu}s, 10000{\mu}s$ and $52000{\mu}s$ respectively.}
+    \label{fig:fs_sensor_sequence}
+\end{figure}
 
 \section{Ground Truth Estimation Protocol}\label{sec:ground_truth_estim}
 To do ...
