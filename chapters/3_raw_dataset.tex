@@ -55,14 +55,29 @@ The main features of this dataset are the following:
 
 Each image of the dataset comes with ground truth estimate of all the objects present in the scene. The full 3D position in space, rotation plus translation with respect to the camera frame, has been annotated with a specific protocol that involved both manually intervention of the user by means of our own developed labeling tool and some other automatic procedures for propagating the pose in a given reference frame to all the other images of the dataset.
 
-\section{Details of the Scenes}\label{sec:raw_scenes_details}
-As already anticipated, the RAW Dataset comes with 15 different scenes. In particular, those scenes are aggregated in three different categories: \emph{easy}, \emph{medium} and \emph{hard}. This categorization depends on the level of complexity of the disposition of the objects in the scenes. An example of easy medium and hard scene comparison is given in Figure \ref{fig:easy_medium_hard_scene}.
-
 \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{figures/3_raw_dataset/easy_medium_hard_scene}
     \caption{\textbf{RAW Dataset Scenes Comparison.} From left to right: easy scene, medium scene and hard scene. All the images refers to the camera left of the FlexSight sensor and are without the projected laser pattern.}
     \label{fig:easy_medium_hard_scene}
+\end{figure}
+
+\section{Details of the Scenes}\label{sec:raw_scenes_details}
+As already anticipated, the RAW Dataset comes with 15 different scenes. In particular, those scenes are aggregated in three different categories: \emph{easy}, \emph{medium} and \emph{hard}. This categorization depends on the level of complexity of the disposition of the objects in the scenes. An example of easy medium and hard scene comparison is given in Figure \ref{fig:easy_medium_hard_scene}. Moreover, easy scenes does not contain any occlusion or overlapping of the objects, while medium and hard scenes do.
+
+Each scene is composed as follow:
+
+\begin{itemize}
+	\item \textbf{FlexSight Sensor Data}: 465 images, both for camera left and camera right of the sensor. Each image has been acquired with and without the projected laser pattern (See Figure \ref{fig:flexsight_laser_no_laser_ex}).
+	\item \textbf{Microsoft Kinect 2}: 465 rgb-d images. We provide both rgb and depth image, together with the automatic generated registered pointcloud.
+	\item \textbf{Intel Realsense SR300}: 465 rgb-d images. For the Intel Realsense SR300 only rgb and depth images are provided.
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/3_raw_dataset/flexsight_laser_no_laser_ex}
+    \caption{\textbf{FlexSight Sensor Acquisition (with and without laser pattern).} On the left the FlexSight Sensor image acquired without projected laser pattern, on the right with projected laser pattern.}
+    \label{fig:flexsight_laser_no_laser_ex}
 \end{figure}
 
 \section{Setup and Sensors}\label{sec:raw_setup_and_sensors}
