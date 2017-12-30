@@ -153,10 +153,41 @@ For the FlexSight sensor we also split the acquisition in two different phases, 
 \end{figure}
 
 \section{Ground Truth Estimation Protocol}\label{sec:ground_truth_estim}
-To do ...
+Having a good estimate of the ground truth 3D position of each object in the scene is a central point for our RAW Dataset. We tried to achieve high level of accuracy in the ground truth estimation by establishing a rigid and fixed protocol. This protocol is composed by different phases that consist both in manually and automatic procedures. The steps can be schematized as follows:
 
-\subsection{Labelling tool}\label{subsec:raw_labeltool}
-To do ...
+\begin{enumerate}
+	\item \textbf{Manual estimation of the first initial guess}: In this step the user is asked to manually position the rendered object model to the first initial guess. This step is performed using our own developed labeling tool;
+	\item \textbf{Automatic 3D pose optimization}: In this step a accurate and fine optimization of the initial guess is performed. Once the user has selected its desired initial guess for the object model, an automatic optimization pipeline is performed using both single and multi-view information fusion. This step is performed using the aforementioned labeling tool and using the algorithm proposed in section \ref{subsec:d2co}, with an expressly tuned parameterization of its multiview implementation. In particular, for the FlexSight sensor, both the left and right images are used for optimize the pose of the object, while, for the other two commercial sensors, different views of the same scene have been used to accomplish this step.
+	\item \textbf{Automatic object pose propagation}: Having the pose of the object in the first frame of the scene is the starting point for the propagation to all the other frames. All the objects of the scene have been specifically positioned within a plane where a custom Aruco markers board has been printed. This board acts as our world reference frame, so once the board is detected in all the other frames, the new object position is directly derived with a simple transformation.
+\end{enumerate}
+
+Further details on the labeling tool and the results of the pose propagation approaches will be given in the next sections.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/3_raw_dataset/labeltool_detail_0}
+    \caption{\textbf{Labeling tool software detail}. In the left image there is the representation of the selected scene, on the right one there is the detail of the area where the user is focused on. As the user labels the object pose, it is drawn on the two images.}
+    \label{fig:labeltool_detail_0}
+\end{figure}
+
+\subsection{Labeling tool}\label{subsec:raw_labeltool}
+In order to reduce the labeling time, a dedicated tool has been developed. In Figure \ref{fig:labeltool_detail_0} there is a detailed view of the GUI that we developed. As it can be seen from the picture, many options are given to the user both to manually select the scene and the frame to annotate and to automatically refine the position of the desired initial guess.
+
+Many useful tools have been implemented, in particular, there is the possibility to always highlight the position of each labeled object and of the world reference frame given by the automatic detection of the Aruco board on the plane. An example of board detection performed within the labeling tool GUI is given in Figure \ref{fig:labeltool_detail_1}. Other useful feature is the possibility to show the bounding box of each labeled object, see Figure \ref{fig:labeltool_detail_2}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/3_raw_dataset/labeltool_detail_1}
+    \caption{\textbf{Labeling tool Aruco board detection}. The tool automatically detects the Aruco board, and the user is able to draw it on the images at any time.}
+    \label{fig:labeltool_detail_1}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/3_raw_dataset/labeltool_detail_2}
+    \caption{\textbf{Labeling tool Bounding Box feature}. The tool gives the possibility to draw the bounding boxes of all the labeled objects.}
+    \label{fig:labeltool_detail_2}
+\end{figure}
 
 \subsection{Pose Propagation Pipeline}\label{subsec:pose_propagation}
 To do ...
