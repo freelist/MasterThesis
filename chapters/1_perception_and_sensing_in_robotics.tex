@@ -146,7 +146,26 @@ More in detail a CNN consists of an input and an output layer, as well as multip
     \label{fig:typical_cnn}
 \end{figure}
 
-An example of a typical CNN architecture is given in Figure \ref{fig:typical_cnn}.
+An example of a typical CNN architecture is given in Figure \ref{fig:typical_cnn}. One real architecture that we also tested with our RAW Dataset is called \emph{YOLO (You Only Look Once)} from \cite{Redmon2016YOLO}, and its secon improvement from \cite{Redmon2017YOLO2} which realized state of the art results on standard detection tasks like \emph{PASCAL VOC} and \emph{COCO}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/1_perception_and_sensing_in_robotics/yolo_architecture}
+    \caption{\textbf{YOLO Architecture}. This detection network has 24 convolutional layers followed by 2 fully connected layers. Alternating $1 \times 1$ convolutional layers reduce the features space from preceding layers.} 
+    \label{fig:yolo_architecture}
+\end{figure}
+
+\subsubsection{YOLO (You Only Look Once) Deep Neural Network Architecture}\label{subsubsec:yolo}
+The revolutionary YOLO architecture is a very deep neural network composed by 24 convolutional layers followed by 2 fully connected layers. A detailed view of this architecture is given in Figure \ref{fig:yolo_architecture}.
+
+This has been considered a very novel and interesting idea since it realizes detection as a regression problem, in particular it divides the image into an $S \times S$ grid and for each grid cell predicts $B$ bounding boxes, confidence for those boxes, and $C$ class probabilities. A very useful example of this concept is given in Figure \ref{fig:yolo_detail}, where it is explained how the process goes on. Basically, instead of directly predicting the bounding box of the object, they perform regression on the offsets between some pre-computed bounding boxes used as test and the real one. In this way, the process is much more easy and fast.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/1_perception_and_sensing_in_robotics/yolo_detail}
+    \caption{\textbf{YOLO Image Analysis}. The image is sampled with a specific window, then each cell is then converted into class probability map and fused with the bounding boxes and their confidence in order to obtain the final decisions.} 
+    \label{fig:yolo_detail}
+\end{figure}
 
 \section{State of the art Software Libraries in Industry}\label{sec:industrylibraries}
 Machine Vision is one of the most active area in industrial settings. Over the past years, many software companies and Open Source communities have dedicated lot of effort in developing robust and effective techniques and algorithms in order to assist industrial realities, such as companies and start ups, in performing computer vision assisted tasks, e.g. random bin picking, Pick\&Place tasks and so on.
