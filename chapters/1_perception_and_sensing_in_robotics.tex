@@ -119,7 +119,34 @@ The algorithm extract a set of object candidates by pre-computing the (projected
 \end{figure}
 
 \subsection{Deep Learning Neural Networks for Object Detection}\label{subsec:dl_obj_detection}
-To do ...
+Despite standard techniques for object detection like the one introduced in the last section, here we are going to explore some techniques that in the recent years have become the state of the art in most of the common computer vision tasks, such as object detection. Those approaches are based on \emph{CNNs (Convolutional Neural Networks)} and are commonly associated with the Deep Learning literature. In Machine Learning in fact, CNN is a class of deep, feed-forward artificial neural network. 
+
+The idea of this kind of networks comes from biological processes: 
+
+\begin{itemize}
+	\item The connectivity pattern between neurons is inspired by the organization of the animal visual cortex; 	
+	\item Individual cortical neurons respond to stimuli only in a restricted region of the visual field known as the receptive field; 
+	\item The receptive fields of different neurons partially overlap such that they cover the entire visual field.
+\end{itemize}
+
+Following those intuitions, also in Computer Vision, more in detail in image processing, CNNs have been applied analyze and process visual data such as our brain does. CNNs use relatively little pre-processing compared to other image classification algorithms. This means that the network learns the filters that in traditional algorithms were hand-engineered. This independence from prior knowledge and human effort in feature design is a major advantage and is something that comes directly from the input data used during the training phase of the network, that is why this kind of approaches are also called \emph{data driven}, because they mostly relies on huge amounts of data.
+
+More in detail a CNN consists of an input and an output layer, as well as multiple hidden layers. Those hidden layers typically consist of convolutional layers, pooling layers, fully connected layers and normalization layers. In particular:
+
+\begin{itemize}
+	\item \textbf{Convolutional Layer}: Convolutional layers apply a convolution operation to the input, passing the result to the next layer. The convolution emulates the response of an individual neuron to visual stimuli. Each neuron here processes data only for its receptive field. Those kind of input partitioning allows CNNs to tolerate translation of the input image (e.g. translation, rotation, perspective distortion, etc.)
+	\item \textbf{Pooling Layer}: Those kind of layers combine the outputs of neuron clusters at one layer into a single neuron in the next layer. For example, max pooling uses the maximum value from each of a cluster of neurons at the prior layer. Pooling layers are commonly used after convolutional ones in order to reduce the dimension of the data, also called data dimensionality reduction.
+	\item \textbf{Fully Connected Layer}: Fully connected layers connect every neuron in one layer to every neuron in another layer. It is in principle the same as the traditional multi-layer perceptron neural network (MLP).
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/1_perception_and_sensing_in_robotics/typical_cnn}
+    \caption{\textbf{Typical CNN architecture}. Typical CNNs architectures are composed by single or many convolutional layers, each followed by some pooling layer in order to reduce the dimension of the data for the next convolutional layer. As our scope is to evaluate object detection and classification results, commonly used architectures uses fully connected layer at the end of the network for performing classification.} 
+    \label{fig:typical_cnn}
+\end{figure}
+
+An example of a typical CNN architecture is given in Figure \ref{fig:typical_cnn}.
 
 \section{State of the art Software Libraries in Industry}\label{sec:industrylibraries}
 Machine Vision is one of the most active area in industrial settings. Over the past years, many software companies and Open Source communities have dedicated lot of effort in developing robust and effective techniques and algorithms in order to assist industrial realities, such as companies and start ups, in performing computer vision assisted tasks, e.g. random bin picking, Pick\&Place tasks and so on.
