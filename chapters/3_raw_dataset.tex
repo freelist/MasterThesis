@@ -190,4 +190,15 @@ Many useful tools have been implemented, in particular, there is the possibility
 \end{figure}
 
 \subsection{Pose Propagation Pipeline}\label{subsec:pose_propagation}
-To do ...
+The design of the Aruco board has been specifically thought in order to let the labeling procedure as much rapid as possible. Having a clearly visible structure in all the images of the dataset is very convenient in order to automatically replicate, namely propagate, the object poses from one image to the other.
+
+As already anticipated in the introduction of this section, the last step of our ground truth estimation protocol is the object pose propagation. Here we can distinguish two different ways of propagation of the object pose:
+
+\begin{itemize}
+	\item \textbf{Sensor to Sensor}: here the pose is propagated from one sensor, e.g. the FlexSight camera left, to another sensor, e.g. the FlexSight camera right.
+	\item \textbf{Frame to Frame}: here the pose is propagated from one single image acquisition, e.g. the first image of the scene, to another image of the same scene.
+\end{itemize}
+
+The two propagation techniques basically differ in terms of the used approach: in Sensor to Sensor pose propagation we used the relative transform of the two sensors in order to propagate the pose of the object. The transformation has been computed accurately calibrating the relative position of each sensor that composes our experimental sensor setup by using our own developed calibration tool; in Frame to Frame pose propagation instead we only use the information derived by detecting the Aruco board and basically propagate the manually labeled object pose in the first image of the scene to all the other images of the same scene.
+
+Given that the Aruco board was not always perfectly visible in all the images of the scenes, its detection cannot be taken as always reliable. For this reason we decided to give more importance to the first pose propagation approach and use the second one just as a comparison for the results.
