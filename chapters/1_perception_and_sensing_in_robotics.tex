@@ -52,20 +52,133 @@ More generic, but with the same importance as the previous one, Pick\&Place (PPT
 A clear example of Pick\&Place scenario is the RoboCup@Work Competition, where the robotic arm that performs pick and drop operations with the objects, is actually mounted on a mobile platform that operates in a more large environment. Another example of robotic Pick\&Place operation are the robot assisted assembly \cite{evangelista2017grounding}, in which the robot assists the human in performing operation in industrial scenarios guided by natural language interaction.
 
 \section{Sensors Technologies}\label{sec:sensor_techs}
-\mynote{Preso da D1.1 FlexSight: copia incolla da lì  e prendi da li spunto per le immagini. Riporta i sensori citati senza i prezzi.}
 In this section, we provide some details about the sensor technologies and a selection of relevant and state-of-the-art sensors typically employed in the pick\&place and bin-picking applications (\secref{sec:roboticsinindustry}). The presented use cases represent only a small portion of the 3D sensor available in the market: anyway, almost all other sensors exploit one of the technologies described below.\\
 Most of state-of-the-art industrial systems currently works with 3D sensors, sometimes coupled with a color or a gray-level camera, since they enable to obtain in a direct way the 3D position of the objects of interest. While almost all RGB cameras are currently based on standard and mature technologies (i.e., they are based on CCD or more frequently CMOS sensors), depth information can be obtained using several types of technology, each one with its strengths and weaknesses.
-\subsection{Passive VS Active Sensor}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/1_perception_and_sensing_in_robotics/active_vs_passive}
+    \caption{\textbf{Passive Stereo sensor VS Active Stereo sensor}. Passive stereo camera (left) VS. active depth sensor (right) with colored pattern projector (image taken from \url{http://eia.udg.es/~qsalvi/Tutorial_Coded_Light_Projection_Techniques_archivos/frame.html}​).} 
+    \label{fig:active_vs_passive}
+\end{figure}
+
+\subsection{Passive VS Active Sensor}\label{subsec:passiveVsActive}
 Traditionally depth information has been acquired using passive stereo cameras, i.e. cameras with two or more separate image sensors. Depth of 3D points are recovered by means of a correspondence problem: matched points projections are triangulated between pairs of sensors. 
 Just like monocular cameras, stereo cameras belong to the class of passive sensors, i.e. sensors that do not modify the surrounding environment in order to acquire data.
-Unfortunately these systems fail in absence of salient visual features in the surfaces of the framed scene: for this reason, only very few modern systems are currently based on this type of technology. \\
-...\\
-\subsection{Time-of-Flight Sensors}
-...\\
+Unfortunately these systems fail in absence of salient visual features in the surfaces of the framed scene: for this reason, only very few modern systems are currently based on this type of technology.
+
+On the other side, active sensor uses light emitters that project a specific pattern or a light with a specific wavelength \emph{(​Time-of-Flight sensors, ToF)}: all these sensors modify in some way the surrounding environment (i.e., they illuminate the scene). The correspondence problem in this case is solved, e.g., by searching the known pattern in the camera image (pattern decoding, used in ​ \emph{Structured Light sensors, SL}) or performing a traditional stereo matching algorithm using visual features synthetically created by the light projector (​\emph{Active Stereo sensors, AS}).
+In the first case (SL) just one camera is required, but the camera-projector couple should be carefully calibrated. In the second case two calibrated cameras are required, while an accurate calibration between the cameras and the projector is not required: the projector is just required to illuminate the framed scene.
+
+An qualitative comparison of Active Stereo sensor and Passive Stereo sensor is given in \figref{fig:active_vs_passive}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/1_perception_and_sensing_in_robotics/tof_sensors}
+    \caption{\textbf{Time-of-light sensor technology}. LIDAR range scanner (left, images taken form ​\url{https://it.wikipedia.org/wiki/Lidar​}) and time-of-flight array principle (right image taken from \cite{Shim2012tof}).} 
+    \label{fig:tof_sensors}
+\end{figure}
+
+\subsection{Time-of-Flight Sensors}\label{subsec:tof_sensors}
+ToF sensors works by emitting a typically IR light carrier with known wavelength, then measuring the phase shift of the reflected light on the receiver side (Fig.2 right). 2D LIDAR (Laser Imaging Detection and Ranging) range scanners (Fig.2 left) use one panning emitter-receiver couple, while ToF cameras (Fig.2 right) use several emitters and a matrix of receivers that provide a depth map of the framed scene.
+
+\begin{itemize}
+	\item \textbf{Pros}: ToF cameras are compact sensors that can provide full depth maps in real time, well suited also for moving devices.
+	\item \textbf{Cons}: The depth map resolution is generally low, while the accuracy is not always adequate, in particular close to surfaces' edges and corners. Generally they are not very robust when dealing with reflective materials or black surfaces.
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/1_perception_and_sensing_in_robotics/basler_tof_camera}
+    \caption{\textbf{The Basler ToF Camera}.} 
+    \label{fig:basler_tof_camera}
+\end{figure}
+
+A novel sensor in the ToF area is the \emph{Basler ToF Camera}, depicted in \figref{fig:basler_tof_camera} This new sensor provides cutting edge features in the field of the ToF cameras: it has a relatively high resolution (640 X 480) with high frame rate (20 fps) and a large working range. Unfortunately, like other ToF sensors, the accuracy (+/- 1cm) is often not adequate for many industrial applications.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/1_perception_and_sensing_in_robotics/sl_sensors}
+    \caption{\textbf{Structured light camera basic ​ principle}. This image is taken from \url{​ http://blog.teledynedalsa.com/​}.} 
+    \label{fig:sl_sensors}
+\end{figure}
+
+\subsection{Structured Light Sensors with Moving Head}\label{subsec:sl_sensors_mh}
+Structured light sensors are based on light triangulation: they typically use a laser projector that thanks to a specific lens produces a known ``sparse'' pattern (i.e., typically a line). A conventional camera mounted at a known distance from the laser (​ baseline) frames the scene in order to obtain the distance from the illuminated 3D points. The most common structured light sensors use a laser line projector: such type of sensors can measure a profile for each image (see \figref{fig:sl_sensors}). It is possible to obtain a full 3D point cloud of the working area by integrating each measurements while moving the camera-laser couple over the whole area.
+
+\begin{itemize}
+	\item \textbf{Pros}: These type of sensors generally provide high quality 3D reconstructions while being quite robust when dealing with reflective materials.
+	\item \textbf{Cons}: They usually require expensive devices to move the scanning head in order to be able to scan the entire area; the cycle time is increased by the scanning time (typically from than 1 to 3 seconds).
+\end{itemize}
+
+An example of this kind of sensor is the \emph{Sick IVC-3D} depicted in \figref{fig:sic_sensor} (left). Sick ​\footnote{https://www.sick.com} is one of the best known companies in the field of LIDARS and industrial structured light sensors. The Sick IVC-3D is a family of scanning heads able to triangulate a laser line in real-time, using an ​ integrated laser projector. It requires to be mounted on a mobile system since the laser beam is fixed: the sensor should be moved over a 2D plane. The sensor streams data over an ethernet interface, and it is factory calibrated.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/1_perception_and_sensing_in_robotics/sic_sensor}
+    \caption{\textbf{Some Structured Light sensors from Sick$^2$}. On the left the Sick ICV-3D, on the right the Sick Scanning Ruler S1200.} 
+    \label{fig:sic_sensor}
+\end{figure}
+
+\subsection{Structured Light Sensors with moving pattern}\label{subsec:sl_sensors_mp}
+A variant of the previous sensor can be obtained motorizing the laser line projector: in this case it is not necessary to move the scanning device, but this new solution usually brings to higher costs in production and sell.
+
+\begin{itemize}
+	\item \textbf{Pros}: These type of sensors generally provide high quality 3D reconstructions while being quite robust when dealing with reflective materials.
+	\item \textbf{Cons}: The cycle time is increased by the scanning time (typically from 1 to 3 seconds).
+\end{itemize}
+
+An example of this sensor is the \emph{Sick Scanning Ruler S1200} reported in \figref{fig:sic_sensor} (right). It is a high-performance, factory calibrated, depth sensor which integrates a motorized laser projector. The field of view allows to detect objects inside an Euro pallet or an USA pallets, with a relatively high resolution ($756 \times 512$) and a high depth accuracy, typically from 1 mm to 4 mm, depending on the distance from the working area.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/1_perception_and_sensing_in_robotics/sl_sensor_kinect1}
+    \caption{\textbf{Structured Light Sensors with Dense Pattern example}. The Microsoft Kinect RGB-D camera (left) and the dot matrix pattern projected by its near-infrared illuminator (right, image extracted from the video ​\url{https://www.youtube.com/watch?v=nvvQJxgykcU&feature​}).} 
+    \label{fig:sl_sensor_kinect1}
+\end{figure}
+
+\subsection{Structured Light Sensors with Dense Pattern}\label{subsec:sl_sensors_dp}
+In order to avoid using mechanical devices to move the scanning head or the projector, some devices employ a dense pattern generator that illuminate the scene with a divergent dense pattern, commonly a $N \times M$ pseudo random dot matrix pattern (see \figref{fig:sl_sensor_kinect1}). The pattern is known and each pattern patch (a $P \times P$ submatrix, $P << N, M$) represents a unique binary matrix. Detecting the pattern patches from the camera and knowing the baseline between the camera and the pattern projector, it is possible to estimate the depths by means of triangulation. The classical example of such sensors is represented by the Microsoft Kinect RGB-D camera (Fig. 7 left): it uses a near-infrared projector and it provides a dense $320 \times 240$ depth map.
+
+\begin{itemize}
+	\item \textbf{Pros}: Generally compact sensors that can provide full depth maps in real time well suited also for moving devices.
+	\item \textbf{Cons}: Hard to calibrate, not very robust against sunlight and other external light sources when using an eye safe projector.
+\end{itemize}
+
+An example of industrial SL with Dense Pattern laser sensor is the \emph{Pick-It 3D Camera} (See \figref{fig:pick_it_3d}). Pick-IT\footnote{​ www.pickit3d.com} introduced a complete bin-picking system for small parts that includes a custom-built depth sensor  that is, under a technological point of view, very similar to the Microsoft Kinect 1 RGB-D camera. Pick-It produces two versions of its sensor: one short-range (400 - 800 mm) and one long-range (600 - 1300 mm). None of these sensors can deal with container larger than $600 \times 800$ mm.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/1_perception_and_sensing_in_robotics/pick_it_3d}
+    \caption{\textbf{Pick-it 3D camera}. The Pick-it 3D camera (left) installed on top of a small box (right).} 
+    \label{fig:pick_it_3d}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/1_perception_and_sensing_in_robotics/time_multiplexing_coding}
+    \caption{\textbf{Pick-it 3D cameraTime-Multiplexing coding}.} 
+    \label{fig:time_multiplexing_coding}
+\end{figure}
+
+\subsection{Active Stereo with Changing Pattern}\label{subsec:ac_stereo_changing_pattern}
+As the conventional stereo pairs, active stereo sensors create depth maps by triangulating corresponding points projections. In AS, the projector illuminates the scene in order to simplify the points matching. A simple but effective way to match points between the two cameras is to project a sequence of light patterns so that every pixel is encoded with a \emph{codeword} identified by the pattern sequence. This technique is called ​ time-multiplexing coding, and the most common structure of the patterns is a sequence of stripes that decrease their thickness over time (single axis encoding, \figref{fig:time_multiplexing_coding}). These sensor are typically based on \emph{DLP (Digital Light Processing)} projectors.
+
+\begin{itemize}
+	\item \textbf{Pros}: For specific configurations and by using high-end projectors, these type of sensors can provide the most accurate 3D reconstructions, for this reason they are usually used for 3D printing applications.
+	\item \textbf{Cons}: The cycle time is increased by the projection time (typically from 1 to 2 seconds). Due to the projector type (DLP), they are not robust against sunlight and other external light sources: usually these sensors require a protected environment with no external light sources.
+\end{itemize}
+
+As an example of this kind of technology, the sensor that needs to be mentioned here is the \emph{EnShape Inspect} sensor (See \figref{fig:enshape}) from EnShape\footnote{​ http://www.enshape.de/}. It is actually a Active Stereo sensor with changing \emph{pseudo-random} laser pattern. Dense pseudo random pattern projectors can be used also to perform active stereo scene reconstruction: since each pattern patch is unique, it is relatively easy to match their image projections between the two cameras. This sensor is also capable of providing 3D reconstruction in real-time, so it is well suited for moving devices, e.g. robotic manipulators, but it has only one limitation, it is extremely sensible to illumination differences since it uses eye safe laser projector so ambient light can easily influence the pseudo-random projected pattern.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/1_perception_and_sensing_in_robotics/enshape}
+    \caption{\textbf{EnShape Inspect sensors family}.} 
+    \label{fig:enshape}
+\end{figure}
 
 \section{3D Scene Reconstruction}\label{sec:3dreconstruction}
-
 The ability to estimate the full 3D structure of the environment is often an essential requirement in an industrial scenario, since many object detection and localization techniques are based on 3D approaches, so efficient methods for reconstructing the scene are needed. As introduced in the previous section, most of the more promising depth sensors, both passive or active, are based on ``match and triangulate'' techniques: in this section we introduce a selection of effective 3D scene reconstruction algorithms that exploit this techniques. We will focus on 3D stereo reconstruction approaches, since they are by far the most popular and since they can be tested using our experimental sensor (\mynote{Mettere riferimento a sezione precedente ove inizi a introdurre questo sensore})
 
 \subsection{Stereo Matching}\label{subsec:stereomatching}
@@ -95,7 +208,7 @@ In Eq. \ref{eq:sgm_cost_func} the first term $C(p, d)$ is the similarity cost (i
 
 Minimizing such cost function for a 2D image space is a NP-complete problem. SGM minimizes the cost by means of Dynamic Programming, with the novel idea of computing the optimization combining several individual path, symmetrically from all directions through the image. Summing the path costs in all directions and searching the disparity with the minimal cost for each image pixel $p$, produces the final disparity map.
 
-\subsection{PatchMatch Stereo}\label{subsec:patchmatchstereo}
+\subsubsection{PatchMatch Stereo}\label{subsubsec:patchmatchstereo}
 To do ...
 
 \section{Object Detection}\label{sec:objectdetection}
