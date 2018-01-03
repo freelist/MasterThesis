@@ -181,10 +181,46 @@ As an example of this kind of technology, the sensor that needs to be mentioned 
 \section{3D Scene Reconstruction}\label{sec:3dreconstruction}
 The ability to estimate the full 3D structure of the environment is often an essential requirement in an industrial scenario, since many object detection and localization techniques are based on 3D approaches, so efficient methods for reconstructing the scene are needed. As introduced in the previous section, most of the more promising depth sensors, both passive or active, are based on ``match and triangulate'' techniques: in this section we introduce a selection of effective 3D scene reconstruction algorithms that exploit this techniques. We will focus on 3D stereo reconstruction approaches, since they are by far the most popular and since they can be tested using our experimental sensor (\mynote{Mettere riferimento a sezione precedente ove inizi a introdurre questo sensore})
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/1_perception_and_sensing_in_robotics/binocular_disparity}
+    \caption{\textbf{Image disparity and Depth}. The drawing describes the relationship of image displacement to depth with stereoscopic images, assuming flat co-planar images. Image taken from \url{https://en.wikipedia.org/wiki/Computer_stereo_vision}.} 
+    \label{fig:binocular_disparity}
+\end{figure}
+
 \subsection{Stereo Matching}\label{subsec:stereomatching}
-Stereo matching is used to correlate points from one digital image of a stereo pair with the corresponding points in the second image of the pair. However, finding the best algorithms and parameters, is usually difficult, since different aspects must be considered: accuracy, completeness, occlusions, computational efforts, etc. 
-\mynote{Mettere qui maggiori spiegazioni circa l'idea generale  e un disegnetto ove spieghi la base dello stereo reconstruction }
-We will address two popular techniques, namely \emph{Semi-Global Matching} \cite{hirschmuller2005SemiGlobal} and\emph{PatchMatch Stereo} \cite{bleyer2011PatchMatchStereo}. These two techniques have been intensively used as benchmark tools for our RAW dataset and our experimental sensor setup.
+Stereo matching is used to correlate points from one digital image of a stereo pair with the corresponding points in the second image of the pair. However, finding the best algorithms and parameters, is usually difficult, since different aspects must be considered: accuracy, completeness, occlusions, computational efforts, etc. The approach of using stereo vision to acquire object's 3D geometric information is on the basis of visual \emph{disparity}. The concept of disparity in computer vision basically refers to the difference in coordinates of similar features within two stereo images. This concept is strictly related with what actually happens in our visual apparatus. Our binocular sight is also called parallax, given the horizontal displacement of our eyes. This disposition of the point of views generates the so called binocular disparity and as like as the definition we gave before, it is nothing more than the difference in image location of an object seen by the left and right eyes. From this image difference, it can be easily derived a relationship with the 3D world, namely we are able to reconstruct the depth of a given observed point starting from those displacements. The drawing in \figref{fig:binocular_disparity} shows an explanation of the relationship existing between image displacement, namely pixels' disparity, and the depth. In the drawing, light from the point $A$ is transmitted through the entry points of a pinhole cameras at $B$ and $D$, onto image screens at $E$ and $H$. The two camera lens are respectively at distance $BD = BC + CD$. That means that there are two couple of similar triangles, namely the triangle couples $(ACB, BFE)$ and $(ACD, DGH)$. So the displacement $d$ between the two points $E$ and $H$ on the two images is given by:
+
+\begin{equation}
+    \label{eq:disparity}
+    \begin{aligned}
+    d &= EF + GH \\
+      &= BF(\dfrac{EF}{BF} + \dfrac{GH}{BF}) \\
+      &= BF(\dfrac{EF}{BF} + \dfrac{GH}{DG}) \\ 
+      &= BF(\dfrac{BC+CD}{AC}) \\
+      &= BF(\dfrac{BD}{AC}) \\
+      &= \dfrac{k}{z}
+    \end{aligned}
+\end{equation}
+
+where $k = BD * BF$ and $z = AC$ is the distance from the camera plane to the object, namely the \emph{reconstructed depth} of the pixel. So assuming the cameras are level, and image planes are flat on the same plane (images must be rectified), the displacement in the horizontal axis between the same pixel in the two images is given by:
+
+\begin{equation}
+    \label{eq:disparity1}
+    d = \dfrac{k}{z}
+\end{equation}
+
+where $k$ is the distance between the two cameras times the distance from the lens to the image. Moreover, the depth component in the two images are $z_{1}$ and $z_{2}$, given by:
+
+\begin{equation}
+    \label{eq:depth}
+    \begin{aligned}
+    z_1(x, y) = \min\{v : v = z_2(x, y - \dfrac{k}{z_2(x,y)})\} \\
+    z_2(x, y) = \min\{v : v = z_1(x, y - \dfrac{k}{z_1(x,y)})\}
+    \end{aligned}
+\end{equation}
+
+There are many techniques that exploit this brief and intuitive geometrical concept, in particular we will now address two popular techniques, namely \emph{Semi-Global Matching} from  \cite{hirschmuller2005SemiGlobal} and \emph{PatchMatch Stereo} from \cite{bleyer2011PatchMatchStereo}. Those techniques aims to find the same disparity ideally introduced before by exploiting image features and pixel color information. They have been also intensively used as benchmark tools for our RAW dataset and our experimental sensor setup, that is why we are now going to approach to them more in detail.
 
 
 \subsubsection{Semi-Global Matching (SGM)}\label{subsec:semiglobalmatching}
