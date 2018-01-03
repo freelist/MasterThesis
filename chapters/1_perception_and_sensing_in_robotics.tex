@@ -99,9 +99,14 @@ Minimizing such cost function for a 2D image space is a NP-complete problem. SGM
 To do ...
 
 \section{Object Detection}\label{sec:objectdetection}
-In the following sections we will introduce some machine vision algorithms and techniques for object detection. In particular it will be shown a comparison between standard state of the art techniques based on shape-based approaches, and deep learning networks oriented to object detection and recognition.
+All the robotics application introduced in inf \secref{\label{sec:roboticsinindustry}} requires to detect and localize on or more known objects in the working area: we will introduce here some machine vision algorithms and techniques for object detection and localization. In particular it will be shown a comparison between standard state of the art techniques based on shape-based approaches, and deep learning networks oriented to object detection and recognition.
 
-\subsection{D\textsuperscript{2}{CO} Algorithm}\label{subsec:d2co}
+\subsection{The object detection and localization}
+\mynote{Metti qui delle brevi ma chiare definizioni dei problemi}
+\subsection{Template based approaches}
+\mynote{Spiegare in generale il concetto del template matching}
+\subsubsection{D\textsuperscript{2}{CO} Algorithm}\label{subsec:d2co}
+\mynote{D2CO è solo un'istanza delle etecniche template based}
 As already anticipated, standard approaches are based on object shape and appearance. This means that a CAD model of the object is needed, since the algorithm mainly works on edges extraction and some sort of template matching between the projected model and the edges extracted from the image.
 
 An example of standard algorithm that is totally based on shape and edges is the one presented in \cite{imperoli2015d2co}. This is the very same approach used also in RoboCup@Work by the SPQR@Work team for performing the final registration step in the object detection pipeline. 
