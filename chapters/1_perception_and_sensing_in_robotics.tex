@@ -1,6 +1,5 @@
-\chapter{Perception and Sensing in Robotics: Sensors and Algorithms}\label{ch:perceptionandsensing}
-In this chapter we will discuss about robot perception in industrial settings, focusing the attention on the tools, e.g. sensors and software, and the techniques used to solve common industrial problems such as Random Bin Picking (RBP) and Pick\&Place (PPT). We will also introduce some state of the art commercial libraries that nowadays are commonly used in several industrial applications.
-
+\chapter{Perception in Robotics: Applications, Sensors and Algorithms}\label{ch:perceptionandsensing}
+In this chapter we will discuss about robot perception in industrial settings, focusing the attention on the most common applications and problems, such as Random Bin Picking (RBP) and Pick\&Place (PPT), the exploited sensors, and the algorithms and techniques used to solve the presented problems. We will also introduce some state of the art commercial libraries that nowadays are commonly used in several industrial applications.
 \section{Robotics in Industry}\label{sec:roboticsinindustry}
 Over the years, industry has become one of the most important scenario where robots and automated systems have gained a widespread diffusion. This is basically thanks to the fact that robots can easily and quickly perform repetitive and complex tasks, while providing a constant and very high accuracy.
 % : speed and accuracy are actually two central points of industrial productive chains.
@@ -52,15 +51,31 @@ More generic, but with the same importance as the previous one, Pick\&Place (PPT
 
 A clear example of Pick\&Place scenario is the RoboCup@Work Competition, where the robotic arm that performs pick and drop operations with the objects, is actually mounted on a mobile platform that operates in a more large environment. Another example of robotic Pick\&Place operation are the robot assisted assembly \cite{evangelista2017grounding}, in which the robot assists the human in performing operation in industrial scenarios guided by natural language interaction.
 
+\section{Sensors Technologies}\label{sec:sensor_techs}
+\mynote{Preso da D1.1 FlexSight: copia incolla da lì  e prendi da li spunto per le immagini. Riporta i sensori citati senza i prezzi.}
+In this section, we provide some details about the sensor technologies and a selection of relevant and state-of-the-art sensors typically employed in the pick\&place and bin-picking applications (\secref{sec:roboticsinindustry}). The presented use cases represent only a small portion of the 3D sensor available in the market: anyway, almost all other sensors exploit one of the technologies described below.\\
+Most of state-of-the-art industrial systems currently works with 3D sensors, sometimes coupled with a color or a gray-level camera, since they enable to obtain in a direct way the 3D position of the objects of interest. While almost all RGB cameras are currently based on standard and mature technologies (i.e., they are based on CCD or more frequently CMOS sensors), depth information can be obtained using several types of technology, each one with its strengths and weaknesses.
+\subsection{Passive VS Active Sensor}
+
+Traditionally depth information has been acquired using passive stereo cameras, i.e. cameras with two or more separate image sensors. Depth of 3D points are recovered by means of a correspondence problem: matched points projections are triangulated between pairs of sensors. 
+Just like monocular cameras, stereo cameras belong to the class of passive sensors, i.e. sensors that do not modify the surrounding environment in order to acquire data.
+Unfortunately these systems fail in absence of salient visual features in the surfaces of the framed scene: for this reason, only very few modern systems are currently based on this type of technology. \\
+...\\
+\subsection{Time-of-Flight Sensors}
+...\\
+
 \section{3D Scene Reconstruction}\label{sec:3dreconstruction}
-In this section we are going to explore some techniques of 3D scene reconstruction for stereo cameras setup. This task has particular importance in the context of machine vision, since many object localization techniques are based on 3D approaches, so efficient methods for reconstructing the scene are needed. We will particularly focus on 3D stereo reconstruction approaches, since our experimental sensor setup is hardly based on this kind of technology, and we tested its performance with such algorithms and methods.
 
-We will now address two techniques, namely \emph{Semi-Global Matching} from \cite{hirschmuller2005SemiGlobal} and\emph{PatchMatch Stereo} from \cite{bleyer2011PatchMatchStereo}. These two techniques have been intensively used as benchmark tools for our RAW dataset and our experimental sensor setup.
+The ability to estimate the full 3D structure of the environment is often an essential requirement in an industrial scenario, since many object detection and localization techniques are based on 3D approaches, so efficient methods for reconstructing the scene are needed. As introduced in the previous section, most of the more promising depth sensors, both passive or active, are based on ``match and triangulate'' techniques: in this section we introduce a selection of effective 3D scene reconstruction algorithm that exploit this technique. We will focus on 3D stereo reconstruction approaches, since they are by far the most popular and since they can be tested using our experimental sensor (\mynote{Mettere riferimento a sezione precedente ove inizi a introdurre questo sensore})
 
-\subsection{Semi-Global Matching (SGM)}\label{subsec:semiglobalmatching}
-Stereo matching is used to correlate points from one digital image of a stereo pair with the corresponding points in the second image of the pair. However, finding the best algorithms and parameters, is usually difficult, since different aspects must be considered: accuracy, completeness, occlusions, computational efforts, etc. The Semi-Global matching is, actually, one of the best matching strategies used both in photogrammetry and computer vision, offering good results with low runtime.
+\subsection{Stereo Matching}\label{subsec:stereomatching}
+Stereo matching is used to correlate points from one digital image of a stereo pair with the corresponding points in the second image of the pair. However, finding the best algorithms and parameters, is usually difficult, since different aspects must be considered: accuracy, completeness, occlusions, computational efforts, etc. 
+\mynote{Mettere qui maggiori spiegazioni circa l'idea generale  e un disegnetto ove spieghi la base dello stereo reconstruction }
+We will address two popular techniques, namely \emph{Semi-Global Matching} \cite{hirschmuller2005SemiGlobal} and\emph{PatchMatch Stereo} \cite{bleyer2011PatchMatchStereo}. These two techniques have been intensively used as benchmark tools for our RAW dataset and our experimental sensor setup.
 
-The Semi-Global Matching method from \cite{hirschmuller2005SemiGlobal} performs a pixel-wise matching allowing to shape efficiently object boundaries and fine details. 
+
+\subsubsection{Semi-Global Matching (SGM)}\label{subsec:semiglobalmatching}
+The Semi-Global matching is, actually, one of the best matching strategies used both in photogrammetry and computer vision, offering good results with low runtime. It is commonly used in many real-world applications and implemented inside the firmware of several stereo based depth-cameras. The Semi-Global Matching method \cite{hirschmuller2005SemiGlobal} performs a pixel-wise matching allowing to shape efficiently object boundaries and fine details. 
 
 The algorithm works with a pair of images, and their camera parameters, either intrinsic and extrinsic parameters must be known. That is because it assumes to know the epipolar constraint between the two images, the two cameras actually, so corresponding points are assumed to lie on the same horizontal image line, e.g. images have been rectified using such epipolar constraints. This algorithm realizes the minimization of a global smoothness constraint, combining matching costs along independent one-dimensional paths trough the image. The novel idea in SGM is that it actually computes the pixel matching cost through several paths in the image, not only on the horizontal epipolar line direction like it happened with previous implementations, e.g. scanline algorithm. All those paths and pixel-disparity pairs, aggregate in the computation of a cost function that SGM tries to minimize.
 
