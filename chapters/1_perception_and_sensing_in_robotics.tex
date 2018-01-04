@@ -250,12 +250,35 @@ To do ...
 \section{Object Detection}\label{sec:objectdetection}
 All the robotics application introduced in \secref{sec:roboticsinindustry} requires to detect and localize one or more known objects in the working area: we will introduce here some machine vision algorithms and techniques for object detection and localization. In particular it will be shown a comparison between standard state of the art techniques based on shape-based approaches, and deep learning networks oriented to object detection and recognition.
 
-\subsection{The object detection and localization}
-\mynote{Metti qui delle brevi ma chiare definizioni dei problemi}
-\subsection{Template based approaches}
-\mynote{Spiegare in generale il concetto del template matching}
+\subsection{The object detection and localization}\label{subsec:detection_and_localization}
+In computer vision, object detection and localization are two similar tasks. Basically, given an image $I$ and a set of objects represented by some identifiers $O = {1, 2, \cdots, n}$, the classes of the objects in general, the task is to estimate each object in the image. For estimation here we can assume many different elements:
+
+\begin{itemize}
+	\item \textbf{Bounding-box}: namely a sub-region of the image $I$ that contains the entire object instance;
+	\item \textbf{6D object pose}: the 3D position of the object w.r.t. the camera frame. For 3D position it is intended the 3D rotation matrix $R$ and the translation $t$.
+\end{itemize}
+
+However, in literature, an explicit definition of the two distinct problems of 6D Localization and 6D Detection has been given \cite{hodan20166DPoseEstimation}:
+
+\begin{quotation}
+\emph{Given a training set $T = \{T_1 , T_2 , \cdots , T_n \}$ for a set of rigid objects represented by identifiers $O = \{1, 2, \cdots , n\}$ an estimator should estimate a sequence $E_I = [(o_1, \hat{P}_1, s_1), (o_2, \hat{P}_2, s_2), \cdots , (o_n, \hat{P}_n, s_n)]$, where $\hat{P}_i$ is an estimated 6D pose of an instance object $o_i \in O$ with confidence $s_i \in (0, 1]$.}
+\end{quotation}
+
+we define:
+
+\begin{itemize}
+	\item \textbf{6D Localization Problem}: \emph{in input at the problem a multiset $L_I = \{o_1, 0_2, \cdots, o_n\}$ is given. So the output is $|E_I| = |L_I|$. The Estimator knows how many objects are in the image $I$.}
+	\item \textbf{6D Detection Problem}: \emph{No further information are given in input to the problem. The size of the output $|E_I|$ only depends on the estimator capabilities.}
+\end{itemize}
+
+\subsection{Template Based Approaches}\label{subsec:template_matching}
+Template based approaches, more in general in literature called \emph{Template Matching}, are techniques in digital image processing for finding small parts of an image which match a template image, or a template model of an object and so on. It can be used in manufacturing as a part of quality control, a way to navigate a mobile robot, or as a way to detect edges in images. As already anticipated, as template we can intend different elements, they can simply be parts of an image, or they can be more complex elements such as the 3D CAD model of an object that is going to be found in the image. 
+
+In the first case, where we look for similar part of the image, the problem can be further exploited by simplifying the search space introducing the concept of \emph{features}. Features are nothing more than a simple, and most of the time effective, way to reduce the dimension of the search space by describing the problem in lower dimension. Examples of features are edges in an image, corners, or more complex elements such as \emph{SURF}, \emph{SIFT} or \emph{ORB} descriptors. The last mentioned are very commonly used in computer vision, especially in image processing for autonomous localization and mapping (SLAM), place recognition, image classification and so on.
+
+An example of template based approach is the D\textsuperscript{2}{CO} algorithm from \cite{imperoli2015d2co}, where a 3D CAD model of an object is used as a template for object detection, localization and pose refinement within an image. This is the same approach that we used in our experiments for computing the ground truth for our aforementioned RAW Dataset, that is why in the following section it will be further explained.
+
 \subsubsection{D\textsuperscript{2}{CO} Algorithm}\label{subsec:d2co}
-\mynote{D2CO è solo un'istanza delle etecniche template based}
 As already anticipated, standard approaches are based on object shape and appearance. This means that a CAD model of the object is needed, since the algorithm mainly works on edges extraction and some sort of template matching between the projected model and the edges extracted from the image.
 
 An example of standard algorithm that is totally based on shape and edges is the one presented in \cite{imperoli2015d2co}. This is the very same approach used also in RoboCup@Work by the SPQR@Work team for performing the final registration step in the object detection pipeline. 
