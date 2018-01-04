@@ -245,7 +245,14 @@ In Eq. \ref{eq:sgm_cost_func} the first term $C(p, d)$ is the similarity cost (i
 Minimizing such cost function for a 2D image space is a NP-complete problem. SGM minimizes the cost by means of Dynamic Programming, with the novel idea of computing the optimization combining several individual path, symmetrically from all directions through the image. Summing the path costs in all directions and searching the disparity with the minimal cost for each image pixel $p$, produces the final disparity map.
 
 \subsubsection{PatchMatch Stereo}\label{subsubsec:patchmatchstereo}
-To do ...
+PatchMatch \cite{Barnes2011PatchMatch} is a iterative algorithm for finding the best match between image patches across two different images $A$ and $B$. The core of the algorithm is very simple: initially, for a patch centered at $(x, y)$ in image $A$, a random matching patch is assigned (called nearest neighbor) ad a offset $f(x, y)$ or $v$ in image $B$. With $D(v)$ we then denote the error distance between the two patches at $(x, y)$ in $A$ and at $((x, y) + v)$ in $B$. In every iteration, the algorithm refines the nearest neighbor for every patch of image $A$ basically performing two steps:
+
+\begin{enumerate}
+	\item \textbf{Propagation Step}: Assuming that the two neighboring patches offsets are likely to be the same, the nearest neighbor for a patch at  $(x, y)$ is improved by propagating the known offsets of neighbors of $(x, y)$ only if the patch distance $D(v)$ is improved. Moreover, this propagation is performed using different offsets w.r.t. odd and even iteration. Refer to the original paper for more details.
+	\item \textbf{Random Search}: If $v_0$ is the new offset after the propagation step, further refinement is done by constructing a window around that pixel and searching through a sequence of offsets $\{u_i\}$ at exponentially decreasing distance from $v_0$. Also here, the patch distance errors $D(u_i)$ are computed and the offset is updated only if the error decreases for some of the new offsets.
+\end{enumerate}
+
+This is the very original idea of PatchMatch, and it can be easily applied to any problem that involves matching of part of an image, such as stereo matching. Here in particular, the search space can be drastically reduced, because supposing the images are aligned, the algorithm only has to look for similar patches, offsets technically speaking, by looking on the epipolar lines that are horizontal and parallel, so the search space reduces to lines instead of the full image space.
 
 \section{Object Detection}\label{sec:objectdetection}
 All the robotics application introduced in \secref{sec:roboticsinindustry} requires to detect and localize one or more known objects in the working area: we will introduce here some machine vision algorithms and techniques for object detection and localization. In particular it will be shown a comparison between standard state of the art techniques based on shape-based approaches, and deep learning networks oriented to object detection and recognition.
