@@ -1,10 +1,38 @@
 \chapter{Experiments}\label{ch:experiments}
-To do ...
+In this chapter we will exploit in detail some experiments performed over the RAW Dataset presented in Chatper \ref{ch:raw_dataset}. In particular we will first focus on some object detection experiments performed both with standard shape based approaches as described in Sec. \ref{subsec:template_matching} and deep learning based approaches as described in Sec. \ref{subsec:dl_obj_detection}. Moreover, we will exploit the results of our implementation of the SGM algorithm described in Sec. \ref{subsec:semiglobalmatching} comparing its results with the ground truth depth image created by reconstructing the 3D scene with the ground truth objects pose obtained with the labeling procedure described in Sec. \ref{sec:ground_truth_estim}.
 
-\section{Region Proposal}\label{sec:exp_region_proposal}
-To do ...
+%\section{Region Proposal}\label{sec:exp_region_proposal}
+%To do ...
 
 \section{Object Detection}\label{sec:exp_object_detection}
+As aleady inoduced in Sec. \ref{sec:objectdetection}, object detection is basically the task of computing the 2D boinging box of a given object within an image. Bounding box is essentially a portion of the image that contains the object. Such basic information is extremely important in robotic perception, especially in robotic vision, where the ability to detect objects in different situations is a crucial point. Our tests basically rely on testing the performances of two different kind of approaches, namely shape based and deep learning.
+
+The tests have been performed on a subset of the RAW Dataset, since the availability of the ground truth for the entire dataset has not been achieved yet, moreover it is not part of the scope of this work. The subset of the RAW Dataset is anyway enough large to permit consistent and coherent statistical evaluations, and it is composed as follows:
+
+\begin{itemize}
+	\item \textbf{2 complete scenes}: the tests have been performed using just the first two scenes of the dataset, and just with respect to the data obtained from the experimental FlexSight Sensor, as its performance evaluation is a consistent and important part of the FlexSight project (See Appendix \ref{apx:flexsight});
+	\item \textbf{Almost 4 thousand of images}: the two scenes contains both camera left and camera right of the FlexSight Sensor, both with and without projected laser pattern;
+	\item \textbf{All the images are labeled}: all the considered images have are accompanied with the relative ground truth 3D position of each object and the relative bounding box as well;
+	\item \textbf{5 Different Object Classes}: the involved images only contain 5 object classes of the RAW Dataset, namely: \emph{Distance\_tube}, \emph{M20}, \emph{M20\_100}, \emph{Cover\_plate\_BOX}, \emph{S40\_40\_G};
+	\item \textbf{Synthetic data generation}: for the deep learning approaches, data augmentation has been employed. In particular we will see in the following subsections how we trained the YOLO deep neural network described in Sec. \ref{subsec:dl_obj_detection} with 2 different version of the RAW Dataset subset, namely the first is the original one and the second is a synthetic version of it.
+\end{itemize}
+
+The results wiil be organized by class of the object and will be expressed in terms of IoU accuracy over the detected bounding box.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/3_raw_dataset/halcon_detection_example}
+    \caption{\textbf{Halcon Object Detection Example}. The object detection pipeline of the Halcon libs is essentially based on 3D object localization on 2D images, then given the 3D position of the object w.r.t. the camera frame, it is projected onto the 2D image and the bounding box of the object is extracted.}
+    \label{fig:halcon_detection_example}
+\end{figure}
+
+\subsection{Shape Based Approach Results - Halcon object detection}\label{subsec:halcon_obj_det_results}
+\subsubsection{Experiment Details}
+In this experiment, we performed both object localization and detection since the core of the object detection pipeline of the Halcon libs is essentially based on 3D object localization on 2D images, then given the 3D position of the object w.r.t. the camera frame, it is projected onto the 2D image and the bounding box of the object is extracted. Examples of this procedure is given in Figure 
+\subsubsection{Experiment Results}
+To do ...
+
+\subsection{Deep Learning Approach Results - YOLO}\label{subsec:yolo_obj_det_results}
 To do ...
 
 %\section{Stereo Matching}\label{sec:exp_stereo_matcing}
