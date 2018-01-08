@@ -128,7 +128,7 @@ As expected, the performances slightly increase when including in the search pro
 \subsubsection{Experiment Details}
 Deep learning is become one of the prominent and more prolific area of research in the last decade, and latest techniques and developments have actually now reached the state-of-the-art in many tasks. Object detection is one of them. That is why we wished to test some of those techniques, e.g. YOLO deep neural network, and compare its performance w.r.t. the technique used in the last experiment. In this experiment we are going to show multiple results of YOLO object detection capabilities and explain how we achieved higher levels of IoU Avg. detection rate w.r.t. the Halcon libraries.
 
-The experiment has been conducted using almost the very same settings of the previous experiment, with just few modifications in order to be compliant with this totally different approach. In particular, given the data driven nature of this approach we must subdivide the dataset in two different sets: \emph{training set}, \emph{evaluation set}. In particular we used $95\%$ of the initial subset as training set, and the remaining $5\%$ as validation set. The high disparity among the two set sizes is simply because such approaches need lot of data in order to be trained successfully, that is we gave almost all the subset to the training set. The validation set at the end is big enough to obtain reliable results ($\sim$ 100 images). From now on, we will refer to this version of the dataset as \emph{$YOLO_O$}, as it is directly built from the original RAW Dataset, and just adapted to the YOLO format.
+The experiment has been conducted using almost the very same settings of the previous experiment, with just few modifications in order to be compliant with this totally different approach. In particular, given the data driven nature of this approach we must subdivide the dataset in two different sets: \emph{training set}, \emph{evaluation set}. In particular we used $95\%$ of the initial subset as training set, and the remaining $5\%$ as validation set. The high disparity among the two set sizes is simply because such approaches need lot of data in order to be trained successfully, that is we gave almost all the subset to the training set. The validation set at the end is big enough to obtain reliable results ($\sim$ 100 images). From now on, we will refer to this version of the dataset as \emph{$YOLO_O$}, as it is directly built from the original RAW Dataset, and just adapted to the YOLO format. The same acronym will be given to the related network as well.
 
 \begin{table}
 	\centering
@@ -145,11 +145,11 @@ The experiment has been conducted using almost the very same settings of the pre
 	\emph{steps} & 100, 8000, 10500 \\
     \hline
     \end{tabular}
-    \caption{\textbf{YOLO training parameters.} In the table are reported the most significant parameters that we tuned in order to train the YOLO network. All the others are assumed as with their default value.}
+    \caption{\textbf{$YOLO_O$ training parameters.} In the table are reported the most significant parameters that we tuned in order to train the $YOLO_O$ network. All the others are assumed as with their default value.}
     \label{tab:YOLO_standard_training_params}
 \end{table}
 
-The training of the YOLO network has been conducted using the set of parameters given in \tabref{tab:YOLO_standard_training_params}.
+The training of the $YOLO_O$ network has been conducted using the set of parameters given in \tabref{tab:YOLO_standard_training_params}.
 
 %\begin{table}[!hbt]
 %\parbox{.45\linewidth}{
