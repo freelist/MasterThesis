@@ -36,7 +36,7 @@ In this experiment, we performed both object localization and detection since th
 \end{figure}
 
 \subsubsection{Experiment Results}
-As already anticipated, each result will be presented differentiating for each class of the considered objects. The Tables \ref{tab:halcon_distance_tube_results}, \ref{tab:halcon_M20_results}, \ref{tab:halcon_M20_100_results}, \ref{tab:halcon_Cover_plate_BOX_results} and \ref{tab:halcon_S40_40_G_results} show the accuracy results in terms of Intersection over Union (IoU) for each of the involved object.
+As already anticipated, each result will be presented differentiating for each class of the considered objects. The Tab. \ref{tab:halcon_distance_tube_results}, \ref{tab:halcon_M20_results}, \ref{tab:halcon_M20_100_results}, \ref{tab:halcon_Cover_plate_BOX_results} and \ref{tab:halcon_S40_40_G_results} show the accuracy results in terms of Intersection over Union (IoU) for each of the involved object.
 
 As expected, the performances slightly increase when including in the search procedure the highest number of candidates. That is essentially due to the fact that not always the first best candidate, namely the object with the highest score, is exactly the object that we are looking for. If we compare more than one candidate with the ground truth bounding box we find that for some classes of objects, like the \emph{M20\_100}, only when we consider 5 candidates we achieve to detect the actual object, and even in such cases, the one that has the highest score is not the right object (See. \figref{fig:m20_100_halcon_detection_problems} for a better visualization of the described problem).
 
@@ -125,7 +125,31 @@ As expected, the performances slightly increase when including in the search pro
 \end{table}
 
 \subsection{Deep Learning Approach Results - YOLO}\label{subsec:yolo_obj_det_results}
-To do ...
+\subsubsection{Experiment Details}
+Deep learning is become one of the prominent and more prolific area of research in the last decade, and latest techniques and developments have actually now reached the state-of-the-art in many tasks. Object detection is one of them. That is why we wished to test some of those techniques, e.g. YOLO deep neural network, and compare its performance w.r.t. the technique used in the last experiment. In this experiment we are going to show multiple results of YOLO object detection capabilities and explain how we achieved higher levels of IoU Avg. detection rate w.r.t. the Halcon libraries.
+
+The experiment has been conducted using almost the very same settings of the previous experiment, with just few modifications in order to be compliant with this totally different approach. In particular, given the data driven nature of this approach we must subdivide the dataset in two different sets: \emph{training set}, \emph{evaluation set}. In particular we used $95\%$ of the initial subset as training set, and the remaining $5\%$ as validation set. The high disparity among the two set sizes is simply because such approaches need lot of data in order to be trained successfully, that is we gave almost all the subset to the training set. The validation set at the end is big enough to obtain reliable results ($\sim$ 100 images). From now on, we will refer to this version of the dataset as \emph{$YOLO_O$}, as it is directly built from the original RAW Dataset, and just adapted to the YOLO format.
+
+\begin{table}
+	\centering
+    \begin{tabular}{| l | l |}
+    \hline
+    \textbf{Parameter} & \textbf{Value} \\ \hline
+    \emph{batch size} & 64 \\
+	\emph{height} & 416 \\
+	\emph{momentum} & 0.9 \\
+	\emph{decay} & 0.0005 \\
+	\emph{learning rate} & 0.0001 \\
+	\emph{max batches} & 15000 \\
+	\emph{policy} & steps \\
+	\emph{steps} & 100, 8000, 10500 \\
+    \hline
+    \end{tabular}
+    \caption{\textbf{YOLO training parameters.} In the table are reported the most significant parameters that we tuned in order to train the YOLO network. All the others are assumed as with their default value.}
+    \label{tab:YOLO_standard_training_params}
+\end{table}
+
+The training of the YOLO network has been conducted using the set of parameters given in \tabref{tab:YOLO_standard_training_params}.
 
 %\begin{table}[!hbt]
 %\parbox{.45\linewidth}{
@@ -161,7 +185,7 @@ To do ...
 %}
 %\end{table}
 
-\begin{table}[!hbt]
+\begin{table}
 	\centering
     \begin{tabular}{| l | l | l |}
     \hline
