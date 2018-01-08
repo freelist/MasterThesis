@@ -28,8 +28,17 @@ In this experiment, we performed both object localization and detection since th
 	\item \textbf{Multiple object candidates detection}: We analyzed both the performances using in sequence: \emph{5 candidates}, \emph{4 candidates}, \emph{3 candidates} and \emph{2 candidates}.
 \end{itemize}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{figures/4_experiments/m20_100_halcon_detection_problems}
+    \caption{\textbf{Best Candidate Problems with Halcon Libraries}. The picture depicts an example of erroneous best candidate detection. The candidate that actually refers to the real M20\_100 object is not the one with the highest score. In a single candidate approach the detection would have failed.}
+    \label{fig:m20_100_halcon_detection_problems}
+\end{figure}
+
 \subsubsection{Experiment Results}
 As already anticipated, each result will be presented differentiating for each class of the considered objects. The Tables \ref{tab:halcon_distance_tube_results}, \ref{tab:halcon_M20_results}, \ref{tab:halcon_M20_100_results}, \ref{tab:halcon_Cover_plate_BOX_results} and \ref{tab:halcon_S40_40_G_results} show the accuracy results in terms of Intersection over Union (IoU) for each of the involved object.
+
+As expected, the performances slightly increase when including in the search procedure the highest number of candidates. That is essentially due to the fact that not always the first best candidate, namely the object with the highest score, is exactly the object that we are looking for. If we compare more than one candidate with the ground truth bounding box we find that for some classes of objects, like the \emph{M20\_100}, only when we consider 5 candidates we achieve to detect the actual object, and even in such cases, the one that has the highest score is not the right object (See. \figref{fig:m20_100_halcon_detection_problems} for a better visualization of the described problem).
 
 \begin{table}[!hbt]
 \parbox{.45\linewidth}{
