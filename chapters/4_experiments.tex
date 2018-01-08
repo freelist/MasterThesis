@@ -127,45 +127,45 @@ As expected, the performances slightly increase when including in the search pro
 \subsection{Deep Learning Approach Results - YOLO}\label{subsec:yolo_obj_det_results}
 To do ...
 
-\begin{table}[!hbt]
-\parbox{.45\linewidth}{
-	\centering
-    \begin{tabular}{| l | l |}
-    \hline
-    \textbf{Object Class} & \textbf{IoU Average} \\ \hline
-    \emph{Distance\_tube} & 0.89749 \\
-    \emph{M20} & 0.90142 \\
-    \emph{M20\_100} & 0.94402 \\
-    \emph{Cover\_plate\_BOX} & 0.95479 \\
-    \emph{S40\_40\_G} & 0.93904 \\
-    \hline
-    \end{tabular}
-    \caption{\textbf{YOLO-Original Detection Results.}}
-    \label{tab:dl_normal_results_per_class}
-}
-\hfill
-\parbox{.45\linewidth}{
-	\centering
-    \begin{tabular}{| l | l |}
-    \hline
-    \textbf{Object Class} & \textbf{IoU Average} \\ \hline
-    \emph{Distance\_tube} & 0.82526 \\
-    \emph{M20} & 0.81673 \\
-    \emph{M20\_100} & 0.89050 \\
-    \emph{Cover\_plate\_BOX} & 0.92168 \\
-    \emph{S40\_40\_G} & 0.82985 \\
-    \hline
-    \end{tabular}
-    \caption{\textbf{YOLO-Synthetic Detection Results.}}
-    \label{tab:dl_synthetic_results_per_class}
-}
-\end{table}
+%\begin{table}[!hbt]
+%\parbox{.45\linewidth}{
+%	\centering
+%    \begin{tabular}{| l | l |}
+%    \hline
+%    \textbf{Object Class} & \textbf{IoU Average} \\ \hline
+%    \emph{Distance\_tube} & 0.89749 \\
+%    \emph{M20} & 0.90142 \\
+%    \emph{M20\_100} & 0.94402 \\
+%    \emph{Cover\_plate\_BOX} & 0.95479 \\
+%    \emph{S40\_40\_G} & 0.93904 \\
+%    \hline
+%    \end{tabular}
+%    \caption{\textbf{YOLO-Original Detection Results.}}
+%    \label{tab:dl_normal_results_per_class}
+%}
+%\hfill
+%\parbox{.45\linewidth}{
+%	\centering
+%    \begin{tabular}{| l | l |}
+%    \hline
+%    \textbf{Object Class} & \textbf{IoU Average} \\ \hline
+%    \emph{Distance\_tube} & 0.82526 \\
+%    \emph{M20} & 0.81673 \\
+%    \emph{M20\_100} & 0.89050 \\
+%    \emph{Cover\_plate\_BOX} & 0.92168 \\
+%    \emph{S40\_40\_G} & 0.82985 \\
+%    \hline
+%    \end{tabular}
+%    \caption{\textbf{YOLO-Synthetic Detection Results.}}
+%    \label{tab:dl_synthetic_results_per_class}
+%}
+%\end{table}
 
 \begin{table}[!hbt]
 	\centering
     \begin{tabular}{| l | l | l |}
     \hline
-    \textbf{Object Class} & \textbf{IoU Average - Orig} & \textbf{IoU Average - Synthetic}\\ \hline
+    \textbf{Object Class} & \textbf{$\pmb{YOLO_O}$ - IoU Avg.} & \textbf{$\pmb{YOLO_S}$- IoU Avg.}\\ \hline
     \emph{Distance\_tube} & 0.89749 & 0.82526 \\
     \emph{M20} & 0.90142 & 0.81673 \\
     \emph{M20\_100} & 0.94402 & 0.89050 \\
@@ -173,7 +173,7 @@ To do ...
     \emph{S40\_40\_G} & 0.93904 & 0.82985 \\
     \hline
     \end{tabular}
-    \caption{\textbf{YOLO Detection Results}: Both YOLO trained with original RAW Dataset and the Synthetic generated dataset.Those results are referred to test images of the original RAW Dataset, not the synthetic generated version.}
+    \caption{\textbf{YOLO Detection Results}: Both YOLO trained with original RAW Dataset ($YOLO_O$) and with the Synthetic generated dataset ($YOLO_S$).Those results are referred to test images of the original RAW Dataset, not the synthetic generated version.}
     \label{tab:dl_YOLO_results_unified}
 \end{table}
 
