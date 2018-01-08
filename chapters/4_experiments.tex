@@ -19,18 +19,101 @@ The tests have been performed on a subset of the RAW Dataset, since the availabi
 
 The results wiil be organized by class of the object and will be expressed in terms of IoU accuracy over the detected bounding box.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{figures/3_raw_dataset/halcon_detection_example}
-    \caption{\textbf{Halcon Object Detection Example}. The object detection pipeline of the Halcon libs is essentially based on 3D object localization on 2D images, then given the 3D position of the object w.r.t. the camera frame, it is projected onto the 2D image and the bounding box of the object is extracted.}
-    \label{fig:halcon_detection_example}
-\end{figure}
-
 \subsection{Shape Based Approach Results - Halcon object detection}\label{subsec:halcon_obj_det_results}
 \subsubsection{Experiment Details}
-In this experiment, we performed both object localization and detection since the core of the object detection pipeline of the Halcon libs is essentially based on 3D object localization on 2D images, then given the 3D position of the object w.r.t. the camera frame, it is projected onto the 2D image and the bounding box of the object is extracted. Examples of this procedure is given in Figure 
+In this experiment, we performed both object localization and detection since the core of the object detection pipeline of the Halcon libs is essentially based on 3D object localization on 2D images, then given the 3D position of the object w.r.t. the camera frame, it is projected onto the 2D image and the bounding box of the object is extracted. Examples of this procedure is given in \figref{fig:iou_example}. Moreover, given the highly customization level that those library has, we investigated object detection performances by considering multiple settings:
+
+\begin{itemize}
+	\item \textbf{Single object candidate detection}: Only the object with the highest score is considered
+	\item \textbf{Multiple object candidates detection}: We analyzed both the performances using in sequence: \emph{5 candidates}, \emph{4 candidates}, \emph{3 candidates} and \emph{2 candidates}.
+\end{itemize}
+
 \subsubsection{Experiment Results}
-To do ...
+As already anticipated, each result will be presented differentiating for each class of the considered objects. The Tables \ref{tab:halcon_distance_tube_results}, \ref{tab:halcon_M20_results}, \ref{tab:halcon_M20_100_results}, \ref{tab:halcon_Cover_plate_BOX_results} and \ref{tab:halcon_S40_40_G_results} show the accuracy results in terms of Intersection over Union (IoU) for each of the involved object.
+
+\begin{table}[!hbt]
+\parbox{.45\linewidth}{
+	\centering
+    \begin{tabular}{| l | l |}
+    \hline
+    \textbf{Experiment Type} & \textbf{IoU Average} \\ \hline
+    \emph{5 candidates} & 0.86190 \\
+    \emph{4 candidates} & 0.86190 \\
+    \emph{3 candidates} & 0.86190 \\
+    \emph{2 candidates} & 0.86190 \\
+    \emph{1 candidate} & 0.86190 \\
+    \hline
+    \end{tabular}
+    \caption{\textbf{Halcon IoU avg. scores on Distance\_tube object.}}
+    \label{tab:halcon_distance_tube_results}
+}
+\hfill
+\parbox{.45\linewidth}{
+	\centering
+    \begin{tabular}{| l | l |}
+    \hline
+    \textbf{Experiment Type} & \textbf{IoU Average} \\ \hline
+    \emph{5 candidates} & \textbf{0.74614} \\
+    \emph{4 candidates} & \textbf{0.74614} \\
+    \emph{3 candidates} & \textbf{0.74614} \\
+    \emph{2 candidates} & 0.74418\\
+    \emph{1 candidate} & 0.74418\\
+    \hline
+    \end{tabular}
+    \caption{\textbf{Halcon IoU avg. scores on M20 object.}}
+    \label{tab:halcon_M20_results}
+}
+\end{table}
+
+\begin{table}[!hbt]
+\parbox{.45\linewidth}{
+	\centering
+    \begin{tabular}{| l | l |}
+    \hline
+    \textbf{Experiment Type} & \textbf{IoU Average} \\ \hline
+    \emph{5 candidates} & \textbf{0.79750} \\
+    \emph{4 candidates} & 0.47585 \\
+    \emph{3 candidates} & 0.47585 \\
+    \emph{2 candidates} & 0.00000 \\
+    \emph{1 candidate} & 0.00000 \\
+    \hline
+    \end{tabular}
+    \caption{\textbf{Halcon IoU avg. scores on M20\_100 object.}}
+    \label{tab:halcon_M20_100_results}
+}
+\hfill
+\parbox{.45\linewidth}{
+	\centering
+    \begin{tabular}{| l | l |}
+    \hline
+    \textbf{Experiment Type} & \textbf{IoU Average} \\ \hline
+    \emph{5 candidates} & \textbf{0.79978} \\
+    \emph{4 candidates} & \textbf{0.79978} \\
+    \emph{3 candidates} & \textbf{0.79978} \\
+    \emph{2 candidates} & \textbf{0.79978} \\
+    \emph{1 candidate} & 0.49612 \\
+    \hline
+    \end{tabular}
+    \caption{\textbf{Halcon IoU avg. scores on Cover\_plate\_BOX object.}}
+    \label{tab:halcon_Cover_plate_BOX_results}
+}
+\end{table}
+
+\begin{table}[!hbt]
+	\centering
+    \begin{tabular}{| l | l |}
+    \hline
+    \textbf{Experiment Type} & \textbf{IoU Average} \\ \hline
+    \emph{5 candidates} & 0.80922 \\
+    \emph{4 candidates} & 0.80922 \\
+    \emph{3 candidates} & 0.80922 \\
+    \emph{2 candidates} & 0.80922 \\
+    \emph{1 candidate} & 0.80922 \\
+    \hline
+    \end{tabular}
+    \caption{\textbf{Halcon IoU avg. scores on S40\_40\_G object.}}
+    \label{tab:halcon_S40_40_G_results}
+\end{table}
 
 \subsection{Deep Learning Approach Results - YOLO}\label{subsec:yolo_obj_det_results}
 To do ...
