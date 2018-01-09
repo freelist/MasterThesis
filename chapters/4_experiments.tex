@@ -48,11 +48,11 @@ As expected, the performances slightly increase when including in the search pro
    \cmidrule(lr){2-6} \cmidrule(lr){7-8}
    \textbf{Obj Class} & \emph{1Cand} & \emph{2Cand} & \emph{3Cand} &\emph{4Cand} & \emph{5Cand} & $YOLO_O$ & $YOLO_S$\\
    \cmidrule(lr){1-8}   
-   \emph{Distance\_tube} & 0.862 & 0.862 & 0.862 & 0.862 & 0.862 & \cellcolor{red!25}0.897 & 0.825 \\ 
-   \emph{M20} & 0.744 & 0.744 & 0.746 & 0.746 & 0.746 & \cellcolor{red!25}0.901 & 0.816 \\ 
-   \emph{M20\_100} & 0.000 & 0.000 & 0.475 & 0.475 & 0.797 & \cellcolor{red!25}0.944 & 0.890 \\
-   \emph{Cover\_plate\_BOX} & 0.799 & 0.799 & 0.799 & 0.799 & 0.799 & \cellcolor{red!25}0.954 & 0.921 \\
-   \emph{S40\_40\_G} & 0.809 & 0.809 & 0.809 & 0.809 & 0.809 & \cellcolor{red!25}0.939 & 0.829 \\
+   \emph{Distance\_tube} & 0.862 & 0.862 & 0.862 & 0.862 & 0.862 & \cellcolor{gray!25}0.897 & 0.825 \\ 
+   \emph{M20} & 0.744 & 0.744 & 0.746 & 0.746 & 0.746 & \cellcolor{gray!25}0.901 & 0.816 \\ 
+   \emph{M20\_100} & 0.000 & 0.000 & 0.475 & 0.475 & 0.797 & \cellcolor{gray!25}0.944 & 0.890 \\
+   \emph{Cover\_plate\_BOX} & 0.799 & 0.799 & 0.799 & 0.799 & 0.799 & \cellcolor{gray!25}0.954 & 0.921 \\
+   \emph{S40\_40\_G} & 0.809 & 0.809 & 0.809 & 0.809 & 0.809 & \cellcolor{gray!25}0.939 & 0.829 \\
 %   \vspace{0.025cm} \\
 %   \cline{1-8} \\
    \end{tabular} 
@@ -171,12 +171,12 @@ The experiment has been conducted using almost the very same settings of the pre
 
 The training of the $YOLO_O$ network has been conducted using the set of parameters given in \tabref{tab:YOLO_standard_training_params}. With the very same set of parameters we performed another train of the YOLO network. In particular we used a \emph{synthetic} version of the RAW Dataset, from now on we will refer to it as $YOLO_S$, built by manipulating the same training images used for $YOLO_O$'s training. The basic idea was to change the background of all the images with random images downloaded from the publicly available set of images at the following site: \url{https://snippets.khromov.se/stock-photo-archive-zip-77-images/}. Some example of images realized with such technique, are given in \figref{fig:synthetic_dataset_ex}.
 
-%\begin{figure}
-%    \centering
-%    \includegraphics[width=0.8\textwidth]{figures/4_experiments/synthetic_dataset_ex}
-%    \caption{\textbf{Images from the synthetic RAW Dataset}. In the figure, some examples of the images produced for training the $YOLO_S$ network.}
-%    \label{fig:synthetic_dataset_ex}
-%\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/4_experiments/synthetic_dataset_ex}
+    \caption{\textbf{Images from the synthetic RAW Dataset}. In the figure, some examples of the images produced for training the $YOLO_S$ network.}
+    \label{fig:synthetic_dataset_ex}
+\end{figure}
 %\begin{table}
 %	\centering
 %    \begin{tabular}{| l | l | l |}
