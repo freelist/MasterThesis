@@ -36,93 +36,113 @@ In this experiment, we performed both object localization and detection since th
 \end{figure}
 
 \subsubsection{Experiment Results}
-As already anticipated, each result will be presented differentiating for each class of the considered objects. The Tab. \ref{tab:halcon_distance_tube_results}, \ref{tab:halcon_M20_results}, \ref{tab:halcon_M20_100_results}, \ref{tab:halcon_Cover_plate_BOX_results} and \ref{tab:halcon_S40_40_G_results} show the accuracy results in terms of Intersection over Union (IoU) for each of the involved object.
+As already anticipated, each result will be presented differentiating for each class of the considered objects. The \tabref{tab:big_table_results} show the accuracy results in terms of Intersection over Union (IoU) for each of the involved object, look at the section referred to Shape Based Approach.
 
 As expected, the performances slightly increase when including in the search procedure the highest number of candidates. That is essentially due to the fact that not always the first best candidate, namely the object with the highest score, is exactly the object that we are looking for. If we compare more than one candidate with the ground truth bounding box we find that for some classes of objects, like the \emph{M20\_100}, only when we consider 5 candidates we achieve to detect the actual object, and even in such cases, the one that has the highest score is not the right object (See. \figref{fig:m20_100_halcon_detection_problems} for a better visualization of the described problem).
 
-\begin{table}[!hbt]
-\parbox{.45\linewidth}{
-	\centering
-    \begin{tabular}{| l | l |}
-    \hline
-    \textbf{Experiment Type} & \textbf{IoU Average} \\ \hline
-    \emph{5 candidates} & 0.86190 \\
-    \emph{4 candidates} & 0.86190 \\
-    \emph{3 candidates} & 0.86190 \\
-    \emph{2 candidates} & 0.86190 \\
-    \emph{1 candidate} & 0.86190 \\
-    \hline
-    \end{tabular}
-    \caption{\textbf{Halcon IoU avg. scores on Distance\_tube object.}}
-    \label{tab:halcon_distance_tube_results}
-}
-\hfill
-\parbox{.45\linewidth}{
-	\centering
-    \begin{tabular}{| l | l |}
-    \hline
-    \textbf{Experiment Type} & \textbf{IoU Average} \\ \hline
-    \emph{5 candidates} & \textbf{0.74614} \\
-    \emph{4 candidates} & \textbf{0.74614} \\
-    \emph{3 candidates} & \textbf{0.74614} \\
-    \emph{2 candidates} & 0.74418\\
-    \emph{1 candidate} & 0.74418\\
-    \hline
-    \end{tabular}
-    \caption{\textbf{Halcon IoU avg. scores on M20 object.}}
-    \label{tab:halcon_M20_results}
-}
+\begin{table}[ht!]
+ \centering
+
+   \begin{tabular}{ llllllll }
+   &\multicolumn{5}{c}{ \textbf{Shape Based} } &\multicolumn{2}{c}{ \textbf{Deep Learning} }\\
+   \cmidrule(lr){2-6} \cmidrule(lr){7-8}
+   \textbf{Obj Class} & \emph{1Cand} & \emph{2Cand} & \emph{3Cand} &\emph{4Cand} & \emph{5Cand} & $YOLO_O$ & $YOLO_S$\\
+   \cmidrule(lr){1-8}   
+   \emph{Distance\_tube} & 0.862 & 0.862 & 0.862 & 0.862 & 0.862 & \cellcolor{red!25}0.897 & 0.825 \\ 
+   \emph{M20} & 0.744 & 0.744 & 0.746 & 0.746 & 0.746 & \cellcolor{red!25}0.901 & 0.816 \\ 
+   \emph{M20\_100} & 0.000 & 0.000 & 0.475 & 0.475 & 0.797 & \cellcolor{red!25}0.944 & 0.890 \\
+   \emph{Cover\_plate\_BOX} & 0.799 & 0.799 & 0.799 & 0.799 & 0.799 & \cellcolor{red!25}0.954 & 0.921 \\
+   \emph{S40\_40\_G} & 0.809 & 0.809 & 0.809 & 0.809 & 0.809 & \cellcolor{red!25}0.939 & 0.829 \\
+%   \vspace{0.025cm} \\
+%   \cline{1-8} \\
+   \end{tabular} 
+   \caption{\textbf{IoU Average results}: the table reports the results in terms of IoU Average (Intersection over Union Average) of all the tested methods. Results are reported by object class organized in columns by Shape Based Approach and Deep Learning Approach. Shape Based Approach results are reported by number of candidates used for the detection.}
+ \label{tab:big_table_results}
 \end{table}
 
-\begin{table}[!hbt]
-\parbox{.45\linewidth}{
-	\centering
-    \begin{tabular}{| l | l |}
-    \hline
-    \textbf{Experiment Type} & \textbf{IoU Average} \\ \hline
-    \emph{5 candidates} & \textbf{0.79750} \\
-    \emph{4 candidates} & 0.47585 \\
-    \emph{3 candidates} & 0.47585 \\
-    \emph{2 candidates} & 0.00000 \\
-    \emph{1 candidate} & 0.00000 \\
-    \hline
-    \end{tabular}
-    \caption{\textbf{Halcon IoU avg. scores on M20\_100 object.}}
-    \label{tab:halcon_M20_100_results}
-}
-\hfill
-\parbox{.45\linewidth}{
-	\centering
-    \begin{tabular}{| l | l |}
-    \hline
-    \textbf{Experiment Type} & \textbf{IoU Average} \\ \hline
-    \emph{5 candidates} & \textbf{0.79978} \\
-    \emph{4 candidates} & \textbf{0.79978} \\
-    \emph{3 candidates} & \textbf{0.79978} \\
-    \emph{2 candidates} & \textbf{0.79978} \\
-    \emph{1 candidate} & 0.49612 \\
-    \hline
-    \end{tabular}
-    \caption{\textbf{Halcon IoU avg. scores on Cover\_plate\_BOX object.}}
-    \label{tab:halcon_Cover_plate_BOX_results}
-}
-\end{table}
-
-\begin{table}[!hbt]
-	\centering
-    \begin{tabular}{| l | l |}
-    \hline
-    \textbf{Experiment Type} & \textbf{IoU Average} \\ \hline
-    \emph{5 candidates} & 0.80922 \\
-    \emph{4 candidates} & 0.80922 \\
-    \emph{3 candidates} & 0.80922 \\
-    \emph{2 candidates} & 0.80922 \\
-    \emph{1 candidate} & 0.80922 \\
-    \hline
-    \end{tabular}
-    \caption{\textbf{Halcon IoU avg. scores on S40\_40\_G object.}}
-    \label{tab:halcon_S40_40_G_results}
-\end{table}
+%\begin{table}[!hbt]
+%\parbox{.45\linewidth}{
+%	\centering
+%    \begin{tabular}{| l | l |}
+%    \hline
+%    \textbf{Experiment Type} & \textbf{IoU Average} \\ \hline
+%    \emph{5 candidates} & 0.86190 \\
+%    \emph{4 candidates} & 0.86190 \\
+%    \emph{3 candidates} & 0.86190 \\
+%    \emph{2 candidates} & 0.86190 \\
+%    \emph{1 candidate} & 0.86190 \\
+%    \hline
+%    \end{tabular}
+%    \caption{\textbf{Halcon IoU avg. scores on Distance\_tube object.}}
+%    \label{tab:halcon_distance_tube_results}
+%}
+%\hfill
+%\parbox{.45\linewidth}{
+%	\centering
+%    \begin{tabular}{| l | l |}
+%    \hline
+%    \textbf{Experiment Type} & \textbf{IoU Average} \\ \hline
+%    \emph{5 candidates} & \textbf{0.74614} \\
+%    \emph{4 candidates} & \textbf{0.74614} \\
+%    \emph{3 candidates} & \textbf{0.74614} \\
+%    \emph{2 candidates} & 0.74418\\
+%    \emph{1 candidate} & 0.74418\\
+%    \hline
+%    \end{tabular}
+%    \caption{\textbf{Halcon IoU avg. scores on M20 object.}}
+%    \label{tab:halcon_M20_results}
+%}
+%\end{table}
+%
+%\begin{table}[!hbt]
+%\parbox{.45\linewidth}{
+%	\centering
+%    \begin{tabular}{| l | l |}
+%    \hline
+%    \textbf{Experiment Type} & \textbf{IoU Average} \\ \hline
+%    \emph{5 candidates} & \textbf{0.79750} \\
+%    \emph{4 candidates} & 0.47585 \\
+%    \emph{3 candidates} & 0.47585 \\
+%    \emph{2 candidates} & 0.00000 \\
+%    \emph{1 candidate} & 0.00000 \\
+%    \hline
+%    \end{tabular}
+%    \caption{\textbf{Halcon IoU avg. scores on M20\_100 object.}}
+%    \label{tab:halcon_M20_100_results}
+%}
+%\hfill
+%\parbox{.45\linewidth}{
+%	\centering
+%    \begin{tabular}{| l | l |}
+%    \hline
+%    \textbf{Experiment Type} & \textbf{IoU Average} \\ \hline
+%    \emph{5 candidates} & \textbf{0.79978} \\
+%    \emph{4 candidates} & \textbf{0.79978} \\
+%    \emph{3 candidates} & \textbf{0.79978} \\
+%    \emph{2 candidates} & \textbf{0.79978} \\
+%    \emph{1 candidate} & 0.12 \\
+%    \hline
+%    \end{tabular}
+%    \caption{\textbf{Halcon IoU avg. scores on Cover\_plate\_BOX object.}}
+%    \label{tab:halcon_Cover_plate_BOX_results}
+%}
+%\end{table}
+%
+%\begin{table}[!hbt]
+%	\centering
+%    \begin{tabular}{| l | l |}
+%    \hline
+%    \textbf{Experiment Type} & \textbf{IoU Average} \\ \hline
+%    \emph{5 candidates} & 0.80922 \\
+%    \emph{4 candidates} & 0.80922 \\
+%    \emph{3 candidates} & 0.80922 \\
+%    \emph{2 candidates} & 0.80922 \\
+%    \emph{1 candidate} & 0.80922 \\
+%    \hline
+%    \end{tabular}
+%    \caption{\textbf{Halcon IoU avg. scores on S40\_40\_G object.}}
+%    \label{tab:halcon_S40_40_G_results}
+%\end{table}
 
 \subsection{Deep Learning Approach Results - YOLO}\label{subsec:yolo_obj_det_results}
 \subsubsection{Experiment Details}
@@ -151,29 +171,29 @@ The experiment has been conducted using almost the very same settings of the pre
 
 The training of the $YOLO_O$ network has been conducted using the set of parameters given in \tabref{tab:YOLO_standard_training_params}. With the very same set of parameters we performed another train of the YOLO network. In particular we used a \emph{synthetic} version of the RAW Dataset, from now on we will refer to it as $YOLO_S$, built by manipulating the same training images used for $YOLO_O$'s training. The basic idea was to change the background of all the images with random images downloaded from the publicly available set of images at the following site: \url{https://snippets.khromov.se/stock-photo-archive-zip-77-images/}. Some example of images realized with such technique, are given in \figref{fig:synthetic_dataset_ex}.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{figures/4_experiments/synthetic_dataset_ex}
-    \caption{\textbf{Images from the synthetic RAW Dataset}. In the figure, some examples of the images produced for training the $YOLO_S$ network.}
-    \label{fig:synthetic_dataset_ex}
-\end{figure}
-\begin{table}
-	\centering
-    \begin{tabular}{| l | l | l |}
-    \hline
-    \textbf{Object Class} & \textbf{$\pmb{YOLO_O}$ - IoU Avg.} & \textbf{$\pmb{YOLO_S}$- IoU Avg.}\\ \hline
-    \emph{Distance\_tube} & \textbf{0.89749} & 0.82526 \\
-    \emph{M20} & \textbf{0.90142} & 0.81673 \\
-    \emph{M20\_100} & \textbf{0.94402} & 0.89050 \\
-    \emph{Cover\_plate\_BOX} & \textbf{0.95479} & 0.92168 \\
-    \emph{S40\_40\_G} & \textbf{0.93904} & 0.82985 \\
-    \hline
-    \end{tabular}
-    \caption{\textbf{YOLO Detection Results}: Both YOLO trained with original RAW Dataset ($YOLO_O$) and with the Synthetic generated dataset ($YOLO_S$).Those results are referred to test images of the original RAW Dataset, not the synthetic generated version.}
-    \label{tab:dl_YOLO_results_unified}
-\end{table}
+%\begin{figure}
+%    \centering
+%    \includegraphics[width=0.8\textwidth]{figures/4_experiments/synthetic_dataset_ex}
+%    \caption{\textbf{Images from the synthetic RAW Dataset}. In the figure, some examples of the images produced for training the $YOLO_S$ network.}
+%    \label{fig:synthetic_dataset_ex}
+%\end{figure}
+%\begin{table}
+%	\centering
+%    \begin{tabular}{| l | l | l |}
+%    \hline
+%    \textbf{Object Class} & \textbf{$\pmb{YOLO_O}$ - IoU Avg.} & \textbf{$\pmb{YOLO_S}$- IoU Avg.}\\ \hline
+%    \emph{Distance\_tube} & \textbf{0.89749} & 0.82526 \\
+%    \emph{M20} & \textbf{0.90142} & 0.81673 \\
+%    \emph{M20\_100} & \textbf{0.94402} & 0.89050 \\
+%    \emph{Cover\_plate\_BOX} & \textbf{0.95479} & 0.92168 \\
+%    \emph{S40\_40\_G} & \textbf{0.93904} & 0.82985 \\
+%    \hline
+%    \end{tabular}
+%    \caption{\textbf{YOLO Detection Results}: Both YOLO trained with original RAW Dataset ($YOLO_O$) and with the Synthetic generated dataset ($YOLO_S$).Those results are referred to test images of the original RAW Dataset, not the synthetic generated version.}
+%    \label{tab:dl_YOLO_results_unified}
+%\end{table}
 \subsubsection{Experiment Details}
-In \tabref{tab:dl_YOLO_results_unified} are reported some results of the test performed with the two networks, namely $YOLO_O$ and $YOLO_S$. The results have been arranged in the same way as the experiment shown before in order to give a comprehensive and consistent way for comparing the two approaches. It is clearly evident that the Deep Learning approaches overcome the shape based ones by more than $\sim10\%$. The main reason why we performed also this other kind of training is that the first network, the $YOLO_O$, seemed to be overfitting the dataset used for training, and the reasons are essentially two:
+In the \textbf{Deep Learning} section of \tabref{tab:big_table_results} are reported some results of the test performed with the two networks, namely $YOLO_O$ and $YOLO_S$. The results have been arranged in the same way as the experiment shown before in order to give a comprehensive and consistent way for comparing the two approaches. It is clearly evident that the Deep Learning approaches overcome the shape based ones by more than $\sim10\%$. The main reason why we performed also this other kind of training is that the first network, the $YOLO_O$, seemed to be overfitting the dataset used for training, and the reasons are essentially two:
 
 \begin{itemize}
 	\item \textbf{Little size of the training set}: We used only a subset of the overall RAW Dataset, and maybe they are too few images for successfully such a big network (more than 20 convolutional layers + fully connected layers at the end);
@@ -188,40 +208,6 @@ We basically claim that such configuration brought the $YOLO_O$ network to overf
     \caption{\textbf{Detection Results on totally different scene}. The scene depicted in the image is taken ot of the RAW Dataset, is not part of it essentially. Was built for testing $YOLO_O$ and $YOLO_S$ performances out of the training and test set. On the left there is the result of $YOLO_O$'s detection, on the right the $YOLO_S$'s one. It is clearly evident that $YOLO_S$ is much more robust than the first one. So results show that we overcome a bit the problem of overfitting with the network trained with the standard RAW Dataset.}
     \label{fig:overfitting_problem}
 \end{figure}
-
-%\begin{table}[!hbt]
-%\parbox{.45\linewidth}{
-%	\centering
-%    \begin{tabular}{| l | l |}
-%    \hline
-%    \textbf{Object Class} & \textbf{IoU Average} \\ \hline
-%    \emph{Distance\_tube} & 0.89749 \\
-%    \emph{M20} & 0.90142 \\
-%    \emph{M20\_100} & 0.94402 \\
-%    \emph{Cover\_plate\_BOX} & 0.95479 \\
-%    \emph{S40\_40\_G} & 0.93904 \\
-%    \hline
-%    \end{tabular}
-%    \caption{\textbf{YOLO-Original Detection Results.}}
-%    \label{tab:dl_normal_results_per_class}
-%}
-%\hfill
-%\parbox{.45\linewidth}{
-%	\centering
-%    \begin{tabular}{| l | l |}
-%    \hline
-%    \textbf{Object Class} & \textbf{IoU Average} \\ \hline
-%    \emph{Distance\_tube} & 0.82526 \\
-%    \emph{M20} & 0.81673 \\
-%    \emph{M20\_100} & 0.89050 \\
-%    \emph{Cover\_plate\_BOX} & 0.92168 \\
-%    \emph{S40\_40\_G} & 0.82985 \\
-%    \hline
-%    \end{tabular}
-%    \caption{\textbf{YOLO-Synthetic Detection Results.}}
-%    \label{tab:dl_synthetic_results_per_class}
-%}
-%\end{table}
 
 %\section{Stereo Matching}\label{sec:exp_stereo_matcing}
 %To do ...
