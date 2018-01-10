@@ -7,6 +7,10 @@ In this chapter we will exploit in detail some experiments performed over the RA
 \section{Object Detection}\label{sec:exp_object_detection}
 As aleady inoduced in Sec. \ref{sec:objectdetection}, object detection is basically the task of computing the 2D boinging box of a given object within an image. Bounding box is essentially a portion of the image that contains the object. Such basic information is extremely important in robotic perception, especially in robotic vision, where the ability to detect objects in different situations is a crucial point. Our tests basically rely on testing the performances of two different kind of approaches, namely shape based and deep learning.
 
+\mynote{The so called shape based method is based on classical template matching techniques (see XXX): in this thesis, we used a state-of-the-art, commercial implementation provided by the Halcon library: this implementation provide cutting edge results out-of-the-box ... Ad deep learning based approach, we selected a very recent and effective approach presented in [X] : for more details, refer to Sec. X}.
+
+\mynote{We remark here that actually the Halcon library shape-based matching implementation is able to provide the \textit{full} 6D pose of the searched object: since nowadays there are no general deep learning solution to the localization problem, we .... }.
+
 The tests have been performed on a subset of the RAW Dataset, since the availability of the ground truth for the entire dataset has not been achieved yet, moreover it is not part of the scope of this work. The subset of the RAW Dataset is anyway enough large to permit consistent and coherent statistical evaluations, and it is composed as follows:
 
 \begin{itemize}
@@ -17,16 +21,69 @@ The tests have been performed on a subset of the RAW Dataset, since the availabi
 	\item \textbf{Synthetic data generation}: for the deep learning approaches, data augmentation has been employed. In particular we will see in the following subsections how we trained the YOLO deep neural network described in Sec. \ref{subsec:dl_obj_detection} with 2 different version of the RAW Dataset subset, namely the first is the original one and the second is a synthetic version of it.
 \end{itemize}
 
-The results wiil be organized by class of the object and will be expressed in terms of IoU accuracy over the detected bounding box.
+The results will be organized by class of the object and will be expressed in terms of IoU accuracy over the detected bounding box.
 
-\subsection{Shape Based Approach Results - Halcon object detection}\label{subsec:halcon_obj_det_results}
-\subsubsection{Experiment Details}
+\subsection{Experiment Setup}
+
+\subsubsection{Shape Based Approach - Halcon object detection}\label{subsec:halcon_obj_det_results}
+
 In this experiment, we performed both object localization and detection since the core of the object detection pipeline of the Halcon libs is essentially based on 3D object localization on 2D images, then given the 3D position of the object w.r.t. the camera frame, it is projected onto the 2D image and the bounding box of the object is extracted. Examples of this procedure is given in \figref{fig:iou_example}. Moreover, given the highly customization level that those library has, we investigated object detection performances by considering multiple settings:
 
 \begin{itemize}
 	\item \textbf{Single object candidate detection}: Only the object with the highest score is considered;
 	\item \textbf{Multiple object candidates detection}: We analyzed both the performances using in sequence: \emph{5 candidates}, \emph{4 candidates}, \emph{3 candidates} and \emph{2 candidates}.
 \end{itemize}
+
+
+\subsubsection{Deep Learning Approach Results - YOLO}\label{subsec:yolo_obj_det_results}
+
+Deep learning is become one of the prominent and more prolific area of research in the last decade, and latest techniques and developments have actually now reached the state-of-the-art in many tasks. Object detection is one of them. That is why we wished to test some of those techniques, e.g. YOLO deep neural network, and compare its performance w.r.t. the technique used in the last experiment. In this experiment we are going to show multiple results of YOLO object detection capabilities and explain how we achieved higher levels of IoU Avg. detection rate w.r.t. the Halcon libraries.
+
+The experiment has been conducted using almost the very same settings of the previous experiment, with just few modifications in order to be compliant with this totally different approach. In particular, given the data driven nature of this approach we must subdivide the dataset in two different sets: \emph{training set}, \emph{evaluation set}. In particular we used $95\%$ of the initial subset as training set, and the remaining $5\%$ as validation set. The high disparity among the two set sizes is simply because such approaches need lot of data in order to be trained successfully, that is we gave almost all the subset to the training set. The validation set at the end is big enough to obtain reliable results ($\sim$ 100 images). From now on, we will refer to this version of the dataset as \emph{$YOLO_O$}, as it is directly built from the original RAW Dataset, and just adapted to the YOLO format. The same acronym will be given to the related network as well.
+
+\begin{table}
+	\centering
+    \begin{tabular}{| l | l |}
+    \hline
+    \textbf{Parameter} & \textbf{Value} \\ \hline
+    \emph{batch size} & 64 \\
+	\emph{height} & 416 \\
+	\emph{momentum} & 0.9 \\
+	\emph{decay} & 0.0005 \\
+	\emph{learning rate} & 0.0001 \\
+	\emph{max batches} & 15000 \\
+	\emph{policy} & steps \\
+	\emph{steps} & 100, 8000, 10500 \\
+    \hline
+    \end{tabular}
+    \caption{\textbf{$YOLO_O$ training parameters.} In the table are reported the most significant parameters that we tuned in order to train the $YOLO_O$ network. All the others are assumed as with their default value.}
+    \label{tab:YOLO_standard_training_params}
+\end{table}
+
+The training of the $YOLO_O$ network has been conducted using the set of parameters given in \tabref{tab:YOLO_standard_training_params}. With the very same set of parameters we performed another train of the YOLO network. In particular we used a \emph{synthetic} version of the RAW Dataset, from now on we will refer to it as $YOLO_S$, built by manipulating the same training images used for $YOLO_O$'s training. The basic idea was to change the background of all the images with random images downloaded from the publicly available set of images at the following site: \url{https://snippets.khromov.se/stock-photo-archive-zip-77-images/}. Some example of images realized with such technique, are given in \figref{fig:synthetic_dataset_ex}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/4_experiments/synthetic_dataset_ex}
+    \caption{\textbf{Images from the synthetic RAW Dataset}. In the figure, some examples of the images produced for training the $YOLO_S$ network.}
+    \label{fig:synthetic_dataset_ex}
+\end{figure}
+%\begin{table}
+%	\centering
+%    \begin{tabular}{| l | l | l |}
+%    \hline
+%    \textbf{Object Class} & \textbf{$\pmb{YOLO_O}$ - IoU Avg.} & \textbf{$\pmb{YOLO_S}$- IoU Avg.}\\ \hline
+%    \emph{Distance\_tube} & \textbf{0.89749} & 0.82526 \\
+%    \emph{M20} & \textbf{0.90142} & 0.81673 \\
+%    \emph{M20\_100} & \textbf{0.94402} & 0.89050 \\
+%    \emph{Cover\_plate\_BOX} & \textbf{0.95479} & 0.92168 \\
+%    \emph{S40\_40\_G} & \textbf{0.93904} & 0.82985 \\
+%    \hline
+%    \end{tabular}
+%    \caption{\textbf{YOLO Detection Results}: Both YOLO trained with original RAW Dataset ($YOLO_O$) and with the Synthetic generated dataset ($YOLO_S$).Those results are referred to test images of the original RAW Dataset, not the synthetic generated version.}
+%    \label{tab:dl_YOLO_results_unified}
+%\end{table}
+\subsection{Experiment Results}
 
 \begin{figure}
     \centering
@@ -35,7 +92,6 @@ In this experiment, we performed both object localization and detection since th
     \label{fig:m20_100_halcon_detection_problems}
 \end{figure}
 
-\subsubsection{Experiment Results}
 As already anticipated, each result will be presented differentiating for each class of the considered objects. The \tabref{tab:big_table_results} show the accuracy results in terms of Intersection over Union (IoU) for each of the involved object, look at the section referred to Shape Based Approach.
 
 As expected, the performances slightly increase when including in the search procedure the highest number of candidates. That is essentially due to the fact that not always the first best candidate, namely the object with the highest score, is exactly the object that we are looking for. If we compare more than one candidate with the ground truth bounding box we find that for some classes of objects, like the \emph{M20\_100}, only when we consider 5 candidates we achieve to detect the actual object, and even in such cases, the one that has the highest score is not the right object (See. \figref{fig:m20_100_halcon_detection_problems} for a better visualization of the described problem).
@@ -144,55 +200,6 @@ As expected, the performances slightly increase when including in the search pro
 %    \label{tab:halcon_S40_40_G_results}
 %\end{table}
 
-\subsection{Deep Learning Approach Results - YOLO}\label{subsec:yolo_obj_det_results}
-\subsubsection{Experiment Details}
-Deep learning is become one of the prominent and more prolific area of research in the last decade, and latest techniques and developments have actually now reached the state-of-the-art in many tasks. Object detection is one of them. That is why we wished to test some of those techniques, e.g. YOLO deep neural network, and compare its performance w.r.t. the technique used in the last experiment. In this experiment we are going to show multiple results of YOLO object detection capabilities and explain how we achieved higher levels of IoU Avg. detection rate w.r.t. the Halcon libraries.
-
-The experiment has been conducted using almost the very same settings of the previous experiment, with just few modifications in order to be compliant with this totally different approach. In particular, given the data driven nature of this approach we must subdivide the dataset in two different sets: \emph{training set}, \emph{evaluation set}. In particular we used $95\%$ of the initial subset as training set, and the remaining $5\%$ as validation set. The high disparity among the two set sizes is simply because such approaches need lot of data in order to be trained successfully, that is we gave almost all the subset to the training set. The validation set at the end is big enough to obtain reliable results ($\sim$ 100 images). From now on, we will refer to this version of the dataset as \emph{$YOLO_O$}, as it is directly built from the original RAW Dataset, and just adapted to the YOLO format. The same acronym will be given to the related network as well.
-
-\begin{table}
-	\centering
-    \begin{tabular}{| l | l |}
-    \hline
-    \textbf{Parameter} & \textbf{Value} \\ \hline
-    \emph{batch size} & 64 \\
-	\emph{height} & 416 \\
-	\emph{momentum} & 0.9 \\
-	\emph{decay} & 0.0005 \\
-	\emph{learning rate} & 0.0001 \\
-	\emph{max batches} & 15000 \\
-	\emph{policy} & steps \\
-	\emph{steps} & 100, 8000, 10500 \\
-    \hline
-    \end{tabular}
-    \caption{\textbf{$YOLO_O$ training parameters.} In the table are reported the most significant parameters that we tuned in order to train the $YOLO_O$ network. All the others are assumed as with their default value.}
-    \label{tab:YOLO_standard_training_params}
-\end{table}
-
-The training of the $YOLO_O$ network has been conducted using the set of parameters given in \tabref{tab:YOLO_standard_training_params}. With the very same set of parameters we performed another train of the YOLO network. In particular we used a \emph{synthetic} version of the RAW Dataset, from now on we will refer to it as $YOLO_S$, built by manipulating the same training images used for $YOLO_O$'s training. The basic idea was to change the background of all the images with random images downloaded from the publicly available set of images at the following site: \url{https://snippets.khromov.se/stock-photo-archive-zip-77-images/}. Some example of images realized with such technique, are given in \figref{fig:synthetic_dataset_ex}.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{figures/4_experiments/synthetic_dataset_ex}
-    \caption{\textbf{Images from the synthetic RAW Dataset}. In the figure, some examples of the images produced for training the $YOLO_S$ network.}
-    \label{fig:synthetic_dataset_ex}
-\end{figure}
-%\begin{table}
-%	\centering
-%    \begin{tabular}{| l | l | l |}
-%    \hline
-%    \textbf{Object Class} & \textbf{$\pmb{YOLO_O}$ - IoU Avg.} & \textbf{$\pmb{YOLO_S}$- IoU Avg.}\\ \hline
-%    \emph{Distance\_tube} & \textbf{0.89749} & 0.82526 \\
-%    \emph{M20} & \textbf{0.90142} & 0.81673 \\
-%    \emph{M20\_100} & \textbf{0.94402} & 0.89050 \\
-%    \emph{Cover\_plate\_BOX} & \textbf{0.95479} & 0.92168 \\
-%    \emph{S40\_40\_G} & \textbf{0.93904} & 0.82985 \\
-%    \hline
-%    \end{tabular}
-%    \caption{\textbf{YOLO Detection Results}: Both YOLO trained with original RAW Dataset ($YOLO_O$) and with the Synthetic generated dataset ($YOLO_S$).Those results are referred to test images of the original RAW Dataset, not the synthetic generated version.}
-%    \label{tab:dl_YOLO_results_unified}
-%\end{table}
-\subsubsection{Experiment Results}
 In the \textbf{Deep Learning} section of \tabref{tab:big_table_results} are reported some results of the test performed with the two networks, namely $YOLO_O$ and $YOLO_S$. The results have been arranged in the same way as the experiment shown before in order to give a comprehensive and consistent way for comparing the two approaches. It is clearly evident that the Deep Learning approaches overcome the shape based ones by more than $\sim10\%$. The main reason why we performed also this other kind of training is that the first network, the $YOLO_O$, seemed to be overfitting the dataset used for training, and the reasons are essentially two:
 
 \begin{itemize}
@@ -235,6 +242,18 @@ With our own implementation of the algorithms and techniques already described i
 \end{figure}
 
 \section{Discussion}\label{sec:exp_discussion}
-In this section, we will go trough the discussion of the results retrieved from the experiments described before. In the context of this work we find more interesting to focus the point of the discussion on the results obtained from the object detection experiments. The reason is that in those settings we can give a clear and supported hypothesis about the future of industrially oriented approaches to object detection, namely we can arise an interesting question on top of all discussions: \emph{Is Deep Learning ready for industry?}
+In the context of this work we find more interesting to focus the point of the discussion on the results obtained from the object detection experiments. The reason is that in those settings we can give a clear and supported hypothesis about the future of industrially oriented approaches to object detection, namely we can arise an interesting question on top of all discussions: \emph{Is Deep Learning ready for industry?}
 
-Given the impressive results obtained from the Deep Learning experiment that we performed on our test bed, the RAW Dataset, the answer to the previous question would be ``of course yes''. But looking with attention to the settings and features of the scenario in which we obtained the increase in performance by performing object detection with Deep Learning approaches, we can claim that a positive answer to the question is somehow hasty and inappropriate up to now. The boost in performance, especially w.r.t. the $YOLO_O$ setup is mainly due to overfitting over the training set, and even if the tests have been performed on a different set of the data, as already anticipated, this is not a consistent and robust proof for claiming such result, since the features of both training and test sets are critically similar. And this last claim is also supported by the results of the $YOLO_O$ setup when tested on drastically different scenarios. That is why we introduced the $YOLO_S$ setup, where such overfitting problems have been mitigated in part. The $YOLO_S$ proved better than the first setup, and this let us formulating a more reasonable answer to the previous question: \emph{there are no clear and robust evidences to the readiness of Deep Learning for industry, but in some tasks it can be taken as a coherent substitute of standard computer vision approaches}. This double side solution to the question is totally legitimated from the fact that industrial settings are extremely structured, organized and fixed, there is a low level of unpredictability, and mostly relevant industrial problems can be tackled with overfitting approaches. We can, and must, overfit the problem, because the scenarios requests explicit and strict solution to its problems. For example, the problem of detect and localize an object in industrial scenarios can be tackled with a mixed approach: Deep Learning can be used while performing object detection only, e.g. bounding box detection, but the last step of pose refinement and 3D object localization could be left to standard shape based approaches where even just an exhaustive search will bring to the scope when working on the restricted search space found by the Deep Learning object detection phase.
+Given the impressive results obtained by YOLO in our experiments, the answer to the previous question would be positive with no discussion. Despite that, a more careful analysis is required.
+
+The dataset used to train YOLO include objects instances that, even if placed in slightly different positions in the scene, look very similar to the ones included in the evaluation dataset, also thanks to the fact that both have been acquired with very similar light conditions. In other words, in this task a strong generalization of the network is not required since each class we are looking for change mainly due to a rigid transformation. Thus cutting edge detection results are here not a surprise. 
+% As a further cue ..., we also experimented some overfitting over the training set, .
+% But looking with attention to the settings and features of the scenario in which we obtained the increase in performance by performing object detection with Deep Learning approaches, we can claim that a positive answer to the question is somehow hasty and inappropriate up to now. 
+
+% , and even if the tests have been performed on a different set of the data, as already anticipated, this is not a consistent and robust proof for claiming such result, since the features of both training and test sets are critically similar. 
+
+On the other side, YOLO provides poor results when tested on drastically different scenes \mynote{Explain better}, where a classic shape based approach provide similar results as....
+\mynote{Una delle cause di tale caduta di performance potrebbe essere il problema dell'overfitting...: the tested detection task in relatively ``easy'' for a big ntwrok such as YOLO, ....}
+That is why we introduced the $YOLO_S$ setup, where such overfitting problems have been mitigated in part. The $YOLO_S$ provides better results than the first setup, and this let us to formulate a more reasonable answer to the previous question: \emph{we didn't get clear and robust evidences to the readiness of Deep Learning for industry so far, but in some tasks it can be taken as a accurate and fast substitute for standard computer vision approaches}. This double side solution to the question is totally legitimated from the fact that industrial settings are extremely structured, organized and fixed, there is a low level of unpredictability, and mostly relevant industrial problems can be tackled with overfitting approaches. We can, and must, overfit the problem, because the scenarios requests explicit and strict solution to its problems. 
+\mynote{Non risolve tutto il problema, ovvero la localization.}.
+For example, the problem of detect and localize an object in industrial scenarios can be tackled with a mixed approach: Deep Learning can be used while performing object detection only, e.g. bounding box detection, but the last step of pose refinement and 3D object localization could be left to standard shape based approaches where even just an exhaustive search will bring to the scope when working on the restricted search space found by the Deep Learning object detection phase.
