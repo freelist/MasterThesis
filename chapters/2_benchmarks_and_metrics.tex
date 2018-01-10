@@ -145,7 +145,7 @@ This distance is very intuitive, but not so effective, and we will see whit an e
     \label{fig:max_av_distances_example}
 \end{figure}
 
-\subsubsection{Maximum Distance (MD)}\label{subsubsec:average_distance}
+\subsubsection{Maximum Distance (MD)}\label{subsubsec:maximum_distance}
 As anticipated in the last section, taking the maximum instead of the average, can be more effective, also compared with the task that we want to perform. Imagine to take a mug, like in the example in Figure \ref{fig:max_av_distances_example}, where the Maximum Distance $d_s$ is calculated performing the maximum instead of the average:
 
 \begin{equation}
@@ -171,7 +171,7 @@ This new distance reflects better the misalignment between ground truth pose and
     \label{fig:ds_vs_dp}
 \end{figure}
 
-\subsubsection{Visible Surface Distance (VSD)}\label{subsubsec:average_distance}
+\subsubsection{Visible Surface Distance (VSD)}\label{subsubsec:visible_surface_distance}
 Do we need actually to perform the evaluation of the distance $d_p$ for all the points of the model $M$. It is actually a very computationally expensive task. That is why we now introduce the concept of \emph{Visible Surface}. The key-point here is to evaluate the distance only on the visible part of the model within the image:
 
 \begin{equation}
