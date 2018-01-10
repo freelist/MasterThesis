@@ -1,5 +1,5 @@
 \chapter{Experiments}\label{ch:experiments}
-In this chapter we will exploit in detail some experiments performed over the RAW Dataset presented in Chatper \ref{ch:raw_dataset}. In particular we will first focus on some object detection experiments performed both with standard shape based approaches as described in Sec. \ref{subsec:template_matching} and deep learning based approaches as described in Sec. \ref{subsec:dl_obj_detection}. Moreover, we will exploit the results of our implementation of the SGM algorithm described in Sec. \ref{subsec:semiglobalmatching} comparing its results with the 3D scenes coming directly from the two commercial sensors in our sensor setup, namely the \emph{Microsoft Kinect 2} and \emph{Intel Realsense SR300}.
+In this chapter we will exploit in detail some experiments performed over the RAW Dataset that has been presented in Chatper \ref{ch:raw_dataset}. In particular we will first focus on some object detection experiments performed both with standard shape based approaches as described in Sec. \ref{subsec:template_matching} and deep learning based approaches as described in Sec. \ref{subsec:dl_obj_detection}. Moreover, we will exploit the results of our implementation of the SGM algorithm described in Sec. \ref{subsec:semiglobalmatching} comparing its results with the 3D scenes coming directly from the two commercial sensors in our sensor setup, namely the \emph{Microsoft Kinect 2} and \emph{Intel Realsense SR300}.
 
 %\section{Region Proposal}\label{sec:exp_region_proposal}
 %To do ...
@@ -7,9 +7,9 @@ In this chapter we will exploit in detail some experiments performed over the RA
 \section{Object Detection}\label{sec:exp_object_detection}
 As aleady inoduced in Sec. \ref{sec:objectdetection}, object detection is basically the task of computing the 2D boinging box of a given object within an image. Bounding box is essentially a portion of the image that contains the object. Such basic information is extremely important in robotic perception, especially in robotic vision, where the ability to detect objects in different situations is a crucial point. Our tests basically rely on testing the performances of two different kind of approaches, namely shape based and deep learning.
 
-\mynote{The so called shape based method is based on classical template matching techniques (see XXX): in this thesis, we used a state-of-the-art, commercial implementation provided by the Halcon library: this implementation provide cutting edge results out-of-the-box ... Ad deep learning based approach, we selected a very recent and effective approach presented in [X] : for more details, refer to Sec. X}.
+The so called shape based method is based on classical template matching techniques (see Sec. \ref{subsec:template_matching}): in this thesis, we used a state-of-the-art, commercial implementation provided by the Halcon library: this implementation provide cutting edge results out-of-the-box, and it is highly customizable, so many problems can be tackled with specific and accurate approaches. As Deep Learning based approach, we selected a very recent and effective network presented in \cite{Redmon2017YOLO2} and \cite{Redmon2016YOLO}: for durther details, refer to Sec. \ref{subsec:dl_obj_detection}.
 
-\mynote{We remark here that actually the Halcon library shape-based matching implementation is able to provide the \textit{full} 6D pose of the searched object: since nowadays there are no general deep learning solution to the localization problem, we .... }.
+We remark here that actually the Halcon library shape-based matching implementation is able to provide the \emph{full} 6D pose of the searched object. Moreover, given the no availability of general deep learning solution to the localization problem, namely to retrieve the 6D pose of a given object, we performed tests only in terms of 2D bounding box object detection. 
 
 The tests have been performed on a subset of the RAW Dataset, since the availability of the ground truth for the entire dataset has not been achieved yet, moreover it is not part of the scope of this work. The subset of the RAW Dataset is anyway enough large to permit consistent and coherent statistical evaluations, and it is composed as follows:
 
@@ -27,7 +27,7 @@ The results will be organized by class of the object and will be expressed in te
 
 \subsubsection{Shape Based Approach - Halcon object detection}\label{subsec:halcon_obj_det_results}
 
-In this experiment, we performed both object localization and detection since the core of the object detection pipeline of the Halcon libs is essentially based on 3D object localization on 2D images, then given the 3D position of the object w.r.t. the camera frame, it is projected onto the 2D image and the bounding box of the object is extracted. Examples of this procedure is given in \figref{fig:iou_example}. Moreover, given the highly customization level that those library has, we investigated object detection performances by considering multiple settings:
+In this experiment, we performed both object localization and detection since the core of the object detection pipeline of the Halcon librareis is essentially based on 3D object localization on 2D images, then given the 3D position of the object w.r.t. the camera frame, it is projected onto the 2D image and the bounding box of the object is extracted. Examples of this procedure is given in \figref{fig:iou_example}. Moreover, given the highly customization level that those library has, we investigated object detection performances by considering multiple settings:
 
 \begin{itemize}
 	\item \textbf{Single object candidate detection}: Only the object with the highest score is considered;
@@ -96,7 +96,7 @@ As already anticipated, each result will be presented differentiating for each c
 
 As expected, the performances slightly increase when including in the search procedure the highest number of candidates. That is essentially due to the fact that not always the first best candidate, namely the object with the highest score, is exactly the object that we are looking for. If we compare more than one candidate with the ground truth bounding box we find that for some classes of objects, like the \emph{M20\_100}, only when we consider 5 candidates we achieve to detect the actual object, and even in such cases, the one that has the highest score is not the right object (See. \figref{fig:m20_100_halcon_detection_problems} for a better visualization of the described problem).
 
-\begin{table}[ht!]
+\begin{table}
  \centering
 
    \begin{tabular}{ llllllll }
@@ -225,6 +225,13 @@ We basically claim that such configuration brought the $YOLO_O$ network to overf
     \label{fig:laser_pattern_problem}
 \end{figure}
 
+\begin{figure}[!hbt]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/4_experiments/3d_reconst_ex}
+    \caption{\textbf{Some stereo matching based 3D reconstruction examples}: (left column) input FlexSight sensor left imagess, (right column) output estimated point-clouds.}
+    \label{fig:3d_reconst_ex}
+\end{figure}
+
 \section{3D Reconstruction}\label{sec:exp_3d_reconstruction}
 As already anticipated, this section is going to cover the part of 3D scene reconstruction. This will mainly focus on the reconstruction capabilities of our experimental sensor, the \emph{FlexSight Sensor}. The sensor is essentially a stereo camera system with active capabilities. This feature is given by the introduction of a laser projector that projects on the scene a pseudo-random pattern that helps 3D reconstruction techniques essentially by adding more structure to the scene. An explicit example of scene frame acquired with and without laser pattern is given in the previous chapter, refer to \figref{fig:flexsight_laser_no_laser_ex} for further details.
 
@@ -233,13 +240,6 @@ Although the introduction of a pseudo-random pattern helps the reconstruction si
 Anyway, by performing \emph{HDR (High Dynamic Range)} processing, the problem can be somehow mitigated, in the sense that this technique basically tries to uniform the level of light intensity over the all image.
 
 With our own implementation of the algorithms and techniques already described in Chapter \ref{ch:perceptionandsensing}, at Sec. \ref{sec:3dreconstruction}, we were able to reconstruct the 3D scene using the active stereo camera setup of the FlexSight Sensor. In the rest of this section we will give a qualitative summary of the results. A more explicit and quantitative evaluation of reconstruction performances will be tackled as future work, since this will also be the last step of the FlexSight project development.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.9\textwidth]{figures/4_experiments/3d_reconst_ex}
-    \caption{\textbf{Some stereo matching based 3D reconstruction examples}: (left column) input FlexSight sensor left imagess, (right column) output estimated point-clouds.}
-    \label{fig:3d_reconst_ex}
-\end{figure}
 
 \section{Discussion}\label{sec:exp_discussion}
 In the context of this work we find more interesting to focus the point of the discussion on the results obtained from the object detection experiments. The reason is that in those settings we can give a clear and supported hypothesis about the future of industrially oriented approaches to object detection, namely we can arise an interesting question on top of all discussions: \emph{Is Deep Learning ready for industry?}
