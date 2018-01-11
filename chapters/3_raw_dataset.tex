@@ -15,23 +15,23 @@ As already mentioned, all the objects present in the dataset are texture-less ob
     \begin{tabular}{| l | l | l |}
     \hline
     \textbf{Name} & \textbf{Class} & \textbf{Description} \\ \hline
-    F20\_20\_B & 0 & Black small aluminium profile \\
-    F20\_20\_G & 1 & Gray small aluminium profile \\
+    F20\_20\_B & 0 & Black small aluminum profile \\
+    F20\_20\_G & 1 & Gray small aluminum profile \\
     M20 & 2 & Small nut \\
     M20\_100 & 3 & Heavy large screw \\
     M30 & 4 & Big nut \\
     R20 & 5 & Plastic tube with shaped borders \\
-    S40\_40\_B & 6 & Black large aluminium profile \\
-    S40\_40\_G & 7 & Gray large aluminium profile \\
+    S40\_40\_B & 6 & Black large aluminum profile \\
+    S40\_40\_G & 7 & Gray large aluminum profile \\
     V20 & 8 & Plastic tube without shaped borders \\
     Bearing\_box & 9 & Small motor box for bearings \\
     Bearing\_box\_B & 10 & Small motor box for bearings (Type B) \\
     Motor & 11 & Black plastic reconstruction of a motor \\
-    Axis & 12 & Aluminium motor axis \\
-    Distance\_tube & 13 & Small aluminium ring \\
+    Axis & 12 & Aluminum motor axis \\
+    Distance\_tube & 13 & Small aluminum ring \\
     Bearing & 14 & Real bearing for motors \\
-    Cover\_plate\_NOHOLE & 15 & Thin aluminium plate with hole \\
-    Cover\_plate\_HOLE & 16 & Thin aluminium plate without hole \\
+    Cover\_plate\_NOHOLE & 15 & Thin aluminum plate with hole \\
+    Cover\_plate\_HOLE & 16 & Thin aluminum plate without hole \\
     Cover\_plate\_BOX & 17 & Black plastic box for cover plates \\
     Bearing\_box\_BOX & 18 & Black plastic box for bearing boxes \\
     \hline
@@ -71,7 +71,7 @@ Each scene is composed as follow:
 
 \begin{itemize}
 	\item \textbf{FlexSight Sensor Data}: 465 images, both for camera left and camera right of the sensor. Each image has been acquired with and without the projected laser pattern (See Figure \ref{fig:flexsight_laser_no_laser_ex}).
-	\item \textbf{Microsoft Kinect 2}: 465 rgb-d images. We provide both rgb and depth image, together with the automatic generated registered pointcloud.
+	\item \textbf{Microsoft Kinect 2}: 465 rgb-d images. We provide both rgb and depth image, together with the automatic generated registered point cloud.
 	\item \textbf{Intel Realsense SR300}: 465 rgb-d images. For the Intel Realsense SR300 only rgb and depth images are provided.
 \end{itemize}
 
@@ -108,7 +108,7 @@ The robotic arm used for the acquisition of the RAW Dataset is a 6 d.o.f. roboti
 The main contribution of this thesis project was the acquisition of a novel dataset with a novel sensor, that provides both high-resolution images for active and passive stereo vision. This sensor, we named it FlexSight Sensor is composed by 2 main components:
 
 \begin{itemize}
-	\item A stereo camera setup, composed by two high resolution grayscale cameras. Each camera provides high-resolution grayscale images, in particular: 2048x1536 pixels of resolution.
+	\item A stereo camera setup, composed by two high resolution grayscale cameras. Each camera provides high-resolution grayscale images, in particular: $2048\times1536$ pixels of resolution.
 	\item A pseudo-random laser projector. This was involved to achieve active stereo capabilities.
 \end{itemize}
 
@@ -117,7 +117,7 @@ A detailed view of the FlexSight sensor is given in Figure \ref{fig:fs_sensor_0}
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/3_raw_dataset/fs_sensor_0}
-    \caption{\textbf{FlexSight Sensor Detail}. From left to right: right high-resolution pointgray camera, arduino controller, pseudo-random laser projector, AC adapter, left high-resolution pointgray camera.}
+    \caption{\textbf{FlexSight Sensor Detail}. From left to right: right high-resolution point gray camera, arduino controller, pseudo-random laser projector, AC adapter, left high-resolution point gray camera.}
     \label{fig:fs_sensor_0}
 \end{figure}
 
@@ -125,8 +125,8 @@ A detailed view of the FlexSight sensor is given in Figure \ref{fig:fs_sensor_0}
 On top of the FlexSight sensor, two commercially available 3D sensors have been mounted, namely a Microsoft Kinect 2 RGB-D sensor and a Intel Realsense SR300. Both the commercial sensors provided already registered depth and rgb images at low and high resolution respectively.
 
 \begin{itemize}
-	\item \textbf{RGB images}: 1920x1080 pixels for both the sensors.
-	\item \textbf{Depth images}: 512x424 pixels for Microsoft Kinect 2 and 640x480 pixels for the Intel Realsense SR300.
+	\item \textbf{RGB images}: $1920\times1080$ pixels for both the sensors.
+	\item \textbf{Depth images}: $512\times424$ pixels for Microsoft Kinect 2 and $640\times480$ pixels for the Intel Realsense SR300.
 \end{itemize}
 
 Moreover, the two sensors have been chosen because they provide different features and can be of major interests for other commercial and common usages. In particular, the Intel Realsense SR300 is a so called \emph{short range} sensor, in the sense that its depth estimation is accurately working in short range, namely $0.2m$ to $1.5m$. While the Microsoft Kinect 2 provides wider range, namely $0.8m$ to $4.5m$.
@@ -159,7 +159,7 @@ Having a good estimate of the ground truth 3D position of each object in the sce
 
 \begin{enumerate}
 	\item \textbf{Manual estimation of the first initial guess}: In this step the user is asked to manually position the rendered object model to the first initial guess. This step is performed using our own developed labeling tool;
-	\item \textbf{Automatic 3D pose optimization}: In this step a accurate and fine optimization of the initial guess is performed. Once the user has selected its desired initial guess for the object model, an automatic optimization pipeline is performed using both single and multi-view information fusion. This step is performed using the aforementioned labeling tool and using the algorithm proposed in section \ref{subsec:d2co}, with an expressly tuned parameterization of its multiview implementation. In particular, for the FlexSight sensor, both the left and right images are used for optimize the pose of the object, while, for the other two commercial sensors, different views of the same scene have been used to accomplish this step.
+	\item \textbf{Automatic 3D pose optimization}: In this step a accurate and fine optimization of the initial guess is performed. Once the user has selected its desired initial guess for the object model, an automatic optimization pipeline is performed using both single and multi-view information fusion. This step is performed using the aforementioned labeling tool and using the algorithm proposed in section \ref{subsec:d2co}, with an expressly tuned parameterization of its multi-view implementation. In particular, for the FlexSight sensor, both the left and right images are used for optimize the pose of the object, while, for the other two commercial sensors, different views of the same scene have been used to accomplish this step.
 	\item \textbf{Automatic object pose propagation}: Having the pose of the object in the first frame of the scene is the starting point for the propagation to all the other frames. All the objects of the scene have been specifically positioned within a plane where a custom Aruco markers board has been printed. This board acts as our world reference frame, so once the board is detected in all the other frames, the new object position is directly derived with a simple transformation.
 \end{enumerate}
 
