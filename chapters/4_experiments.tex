@@ -1,13 +1,13 @@
 \chapter{Experiments}\label{ch:experiments}
-In this chapter we will exploit in detail some experiments performed over the RAW Dataset that has been presented in Chatper \ref{ch:raw_dataset}. In particular we will first focus on some object detection experiments performed both with standard shape based approaches as described in Sec. \ref{subsec:template_matching} and deep learning based approaches as described in Sec. \ref{subsec:dl_obj_detection}. Moreover, we will exploit the results of our implementation of the SGM algorithm described in Sec. \ref{subsec:semiglobalmatching} comparing its results with the 3D scenes coming directly from the two commercial sensors in our sensor setup, namely the \emph{Microsoft Kinect 2} and \emph{Intel Realsense SR300}.
+In this chapter we will exploit in detail some experiments performed over the RAW Dataset that has been presented in Chapter \ref{ch:raw_dataset}. In particular we will first focus on some object detection experiments performed both with standard shape based approaches as described in Sec. \ref{subsec:template_matching} and deep learning based approaches as described in Sec. \ref{subsec:dl_obj_detection}. Moreover, we will exploit the results of our implementation of the SGM algorithm described in Sec. \ref{subsec:semiglobalmatching} comparing its results with the 3D scenes coming directly from the two commercial sensors in our sensor setup, namely the \emph{Microsoft Kinect 2} and \emph{Intel Realsense SR300}.
 
 %\section{Region Proposal}\label{sec:exp_region_proposal}
 %To do ...
 
 \section{Object Detection}\label{sec:exp_object_detection}
-As already introduced in Sec. \ref{sec:objectdetection}, object detection is basically the task of computing the 2D boinging box of a given object within an image. Bounding box is essentially a portion of the image that contains the object. Such basic information is extremely important in robotic perception, especially in robotic vision, where the ability to detect objects in different situations is a crucial point. Our tests basically rely on testing the performances of two different kind of approaches, namely shape based and deep learning.
+As already introduced in Sec. \ref{sec:objectdetection}, object detection is basically the task of computing the 2D bounding box of a given object within an image. Bounding box is essentially a portion of the image that contains the object. Such basic information is extremely important in robotic perception, especially in robotic vision, where the ability to detect objects in different situations is a crucial point. Our tests basically rely on testing the performances of two different kind of approaches, namely shape based and deep learning.
 
-The so called shape based method is based on classical template matching techniques (see Sec. \ref{subsec:template_matching}): in this thesis, we used a state-of-the-art, commercial implementation provided by the Halcon library: this implementation provide cutting edge results out-of-the-box, and it is highly customizable, so many problems can be tackled with specific and accurate approaches. As Deep Learning based approach, we selected a very recent and effective network presented in \cite{Redmon2017YOLO2} and \cite{Redmon2016YOLO}: for durther details, refer to Sec. \ref{subsec:dl_obj_detection}.
+The so called shape based method is based on classical template matching techniques (see Sec. \ref{subsec:template_matching}): in this thesis, we used a state-of-the-art, commercial implementation provided by the Halcon library: this implementation provide cutting edge results out-of-the-box, and it is highly customizable, so many problems can be tackled with specific and accurate approaches. As Deep Learning based approach, we selected a very recent and effective network presented in \cite{Redmon2017YOLO2} and \cite{Redmon2016YOLO}: for further details, refer to Sec. \ref{subsec:dl_obj_detection}.
 
 We remark here that actually the Halcon library shape-based matching implementation is able to provide the \emph{full} 6D pose of the searched object. Moreover, given the no availability of general deep learning solution to the localization problem, namely to retrieve the 6D pose of a given object, we performed tests only in terms of 2D bounding box object detection. 
 
@@ -27,7 +27,7 @@ The results will be organized by class of the object and will be expressed in te
 
 \subsubsection{Shape Based Approach - Halcon object detection}\label{subsec:halcon_obj_det_results}
 
-In this experiment, we performed both object localization and detection since the core of the object detection pipeline of the Halcon librareis is essentially based on 3D object localization on 2D images, then given the 3D position of the object w.r.t. the camera frame, it is projected onto the 2D image and the bounding box of the object is extracted. Examples of this procedure is given in \figref{fig:iou_example}. Moreover, given the highly customization level that those library has, we investigated object detection performances by considering multiple settings:
+In this experiment, we performed both object localization and detection since the core of the object detection pipeline of the Halcon libraries is essentially based on 3D object localization on 2D images, then given the 3D position of the object w.r.t. the camera frame, it is projected onto the 2D image and the bounding box of the object is extracted. Examples of this procedure is given in \figref{fig:iou_example}. Moreover, given the highly customization level that those library has, we investigated object detection performances by considering multiple settings:
 
 \begin{itemize}
 	\item \textbf{Single object candidate detection}: Only the object with the highest score is considered;
@@ -213,7 +213,7 @@ We basically claim that such configuration brought the $YOLO_O$ network to overf
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{figures/4_experiments/overfitting_problem}
-    \caption{\textbf{Detection Results on totally different scene}. The scene depicted in the image is taken ot of the RAW Dataset, is not part of it essentially. Was built for testing $YOLO_O$ and $YOLO_S$ performances out of the training and test set. On the left there is the result of $YOLO_O$'s detection, on the right the $YOLO_S$'s one. It is clearly evident that $YOLO_S$ is much more robust than the first one. So results show that we overcome a bit the problem of overfitting with the network trained with the standard RAW Dataset.}
+    \caption{\textbf{Detection Results on totally different scene}. The scene depicted in the image is taken out of the RAW Dataset, is not part of it essentially. Was built for testing $YOLO_O$ and $YOLO_S$ performances out of the training and test set. On the left there is the result of $YOLO_O$'s detection, on the right the $YOLO_S$'s one. It is clearly evident that $YOLO_S$ is much more robust than the first one. So results show that we overcome a bit the problem of overfitting with the network trained with the standard RAW Dataset.}
     \label{fig:overfitting_problem}
 \end{figure}
 
@@ -229,7 +229,7 @@ We basically claim that such configuration brought the $YOLO_O$ network to overf
 \begin{figure}[!hbt]
     \centering
     \includegraphics[width=0.9\textwidth]{figures/4_experiments/3d_reconst_ex}
-    \caption{\textbf{Some stereo matching based 3D reconstruction examples}: (left column) input FlexSight sensor left imagess, (right column) output estimated point-clouds.}
+    \caption{\textbf{Some stereo matching based 3D reconstruction examples}: (left column) input FlexSight sensor left images, (right column) output estimated point-clouds.}
     \label{fig:3d_reconst_ex}
 \end{figure}
 
