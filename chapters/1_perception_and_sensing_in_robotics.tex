@@ -138,7 +138,7 @@ An example of this sensor is the \emph{Sick Scanning Ruler S1200} reported in \f
 \end{figure}
 
 \subsection{Structured Light Sensors with Dense Pattern}\label{subsec:sl_sensors_dp}
-In order to avoid using mechanical devices to move the scanning head or the projector, some devices employ a dense pattern generator that illuminate the scene with a divergent dense pattern, commonly a $N \times M$ pseudo random dot matrix pattern (see \figref{fig:sl_sensor_kinect1}). The pattern is known and each pattern patch (a $P \times P$ submatrix, $P << N, M$) represents a unique binary matrix. Detecting the pattern patches from the camera and knowing the baseline between the camera and the pattern projector, it is possible to estimate the depths by means of triangulation. The classical example of such sensors is represented by the Microsoft Kinect RGB-D camera (Fig. 7 left): it uses a near-infrared projector and it provides a dense $320 \times 240$ depth map.
+In order to avoid using mechanical devices to move the scanning head or the projector, some devices employ a dense pattern generator that illuminate the scene with a divergent dense pattern, commonly a $N \times M$ pseudo random dot matrix pattern (see \figref{fig:sl_sensor_kinect1}). The pattern is known and each pattern patch (a $P \times P$ sub-matrix, $P << N, M$) represents a unique binary matrix. Detecting the pattern patches from the camera and knowing the baseline between the camera and the pattern projector, it is possible to estimate the depths by means of triangulation. The classical example of such sensors is represented by the Microsoft Kinect RGB-D camera (Fig. 7 left): it uses a near-infrared projector and it provides a dense $320 \times 240$ depth map.
 
 \begin{itemize}
 	\item \textbf{Pros}: Generally compact sensors that can provide full depth maps in real time well suited also for moving devices.
@@ -162,7 +162,7 @@ An example of industrial SL with Dense Pattern laser sensor is the \emph{Pick-It
 \end{figure}
 
 \subsection{Active Stereo with Changing Pattern}\label{subsec:ac_stereo_changing_pattern}
-As the conventional stereo pairs, active stereo sensors create depth maps by triangulating corresponding points projections. In AS, the projector illuminates the scene in order to simplify the points matching. A simple but effective way to match points between the two cameras is to project a sequence of light patterns so that every pixel is encoded with a \emph{codeword} identified by the pattern sequence. This technique is called ​ time-multiplexing coding, and the most common structure of the patterns is a sequence of stripes that decrease their thickness over time (single axis encoding, \figref{fig:time_multiplexing_coding}). These sensor are typically based on \emph{DLP (Digital Light Processing)} projectors.
+As the conventional stereo pairs, active stereo sensors create depth maps by triangulating corresponding points projections. In AS, the projector illuminates the scene in order to simplify the points matching. A simple but effective way to match points between the two cameras is to project a sequence of light patterns so that every pixel is encoded with a \emph{code-word} identified by the pattern sequence. This technique is called ​ time-multiplexing coding, and the most common structure of the patterns is a sequence of stripes that decrease their thickness over time (single axis encoding, \figref{fig:time_multiplexing_coding}). These sensor are typically based on \emph{DLP (Digital Light Processing)} projectors.
 
 \begin{itemize}
 	\item \textbf{Pros}: For specific configurations and by using high-end projectors, these type of sensors can provide the most accurate 3D reconstructions, for this reason they are usually used for 3D printing applications.
@@ -224,7 +224,7 @@ There are many techniques that exploit this brief and intuitive geometrical conc
 
 
 \subsubsection{Semi-Global Matching (SGM)}\label{subsec:semiglobalmatching}
-The Semi-Global matching is, actually, one of the best matching strategies used both in photogrammetry and computer vision, offering good results with low runtime. It is commonly used in many real-world applications and implemented inside the firmware of several stereo based depth-cameras. The Semi-Global Matching method \cite{hirschmuller2005SemiGlobal} performs a pixel-wise matching allowing to shape efficiently object boundaries and fine details. 
+The Semi-Global matching is, actually, one of the best matching strategies used both in photogrammetry and computer vision, offering good results with low run-time. It is commonly used in many real-world applications and implemented inside the firmware of several stereo based depth-cameras. The Semi-Global Matching method \cite{hirschmuller2005SemiGlobal} performs a pixel-wise matching allowing to shape efficiently object boundaries and fine details. 
 
 The algorithm works with a pair of images, and their camera parameters, either intrinsic and extrinsic parameters must be known. That is because it assumes to know the epipolar constraint between the two images, the two cameras actually, so corresponding points are assumed to lie on the same horizontal image line, e.g. images have been rectified using such epipolar constraints. This algorithm realizes the minimization of a global smoothness constraint, combining matching costs along independent one-dimensional paths trough the image. The novel idea in SGM is that it actually computes the pixel matching cost through several paths in the image, not only on the horizontal epipolar line direction like it happened with previous implementations, e.g. scanline algorithm. All those paths and pixel-disparity pairs, aggregate in the computation of a cost function that SGM tries to minimize.
 
@@ -274,7 +274,7 @@ However, in literature, an explicit definition of the two distinct problems of 6
 we define:
 
 \begin{itemize}
-	\item \textbf{6D Localization Problem}: \emph{in input at the problem a multiset $L_I = \{o_1, 0_2, \cdots, o_n\}$ is given. So the output is $|E_I| = |L_I|$. The Estimator knows how many objects are in the image $I$.}
+	\item \textbf{6D Localization Problem}: \emph{in input at the problem a multi-set $L_I = \{o_1, 0_2, \cdots, o_n\}$ is given. So the output is $|E_I| = |L_I|$. The Estimator knows how many objects are in the image $I$.}
 	\item \textbf{6D Detection Problem}: \emph{No further information are given in input to the problem. The size of the output $|E_I|$ only depends on the estimator capabilities.}
 \end{itemize}
 
@@ -345,7 +345,7 @@ More in detail a CNN consists of an input and an output layer, as well as multip
     \label{fig:typical_cnn}
 \end{figure}
 
-An example of a typical CNN architecture is given in Figure \ref{fig:typical_cnn}. One real architecture that we also tested with our RAW Dataset is called \emph{YOLO (You Only Look Once)} from \cite{Redmon2016YOLO}, and its secon improvement from \cite{Redmon2017YOLO2} which realized state of the art results on standard detection tasks like \emph{PASCAL VOC} and \emph{COCO}.
+An example of a typical CNN architecture is given in Figure \ref{fig:typical_cnn}. One real architecture that we also tested with our RAW Dataset is called \emph{YOLO (You Only Look Once)} from \cite{Redmon2016YOLO}, and its second improvement from \cite{Redmon2017YOLO2} which realized state of the art results on standard detection tasks like \emph{PASCAL VOC} and \emph{COCO}.
 
 \begin{figure}
     \centering
