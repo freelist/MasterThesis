@@ -63,7 +63,7 @@ The problem of evaluating how good is a pose estimate w.r.t. the ground truth is
 \begin{figure}
     \centering
     \includegraphics[width=0.7\textwidth]{figures/2_benchmarks_and_metrics/iou_example}
-    \caption{\textbf{IoU score estimation example.} An eample of estimating the 2D bounding box of an object, in particular, the small nut, called M20 in the RAW dataset, with the Halcon Libraries. In red the ground truth bouning box, in green the Halcon best candidates, in blue the last two best candidates.} 
+    \caption{\textbf{IoU score estimation example.} An example of estimating the 2D bounding box of an object, in particular, the small nut, called M20 in the RAW dataset, with the Halcon Libraries. In red the ground truth bounding box, in green the Halcon best candidates, in blue the last two best candidates.} 
     \label{fig:iou_example}
 \end{figure}
 
@@ -223,12 +223,12 @@ Examples of texture-less datasets are the \emph{T-LESS} Dataset \cite{hodan2017t
 \subsection{T-LESS Dataset}\label{subsec:tless_dataset}
 The T-LESS Dataset \cite{hodan2017tless}, has the name suggests, is a publicly available dataset\footnote{http://cmp.felk.cvut.cz/t-less/index.html} composed by thirty different texture-less objects. All the objects in the dataset are from the industrial scenario and do not present any particular feature, moreover, most of them are also very similar in shape and color.
 
-The dataset is composed by training and test images, the former are represented by RGB and RGB-D images of multiple views of the single object, while the latter are composed by 21 test scenes where the objects are collected together in more cluttered and unstructurated forms. All the scenes, both training and test ones, have been acquired with a fixed sensor setup composed by the following RGB and RGB-D cameras:
+The dataset is composed by training and test images, the former are represented by RGB and RGB-D images of multiple views of the single object, while the latter are composed by 21 test scenes where the objects are collected together in more cluttered and unstructured forms. All the scenes, both training and test ones, have been acquired with a fixed sensor setup composed by the following RGB and RGB-D cameras:
 
 \begin{itemize}
-	\item Primesense Carmine 1.09 (Short Range) that provides registered RGB-D images with the following features: RGB:1280x1024 px, Depth:640x480 pixels;
-	\item Microsoft Kinect v2 that provides images with registered depth with 1920x1080 pixels of resolution;
-	\item Canon IXUS 950 IS high resolution camera that provides RGB images of 3264x2448 pixels of resolution.
+	\item Primesense Carmine 1.09 (Short Range) that provides registered RGB-D images with the following features: RGB:$1280\times1024$ pixels, Depth:640x480 pixels;
+	\item Microsoft Kinect v2 that provides images with registered depth with $1920\times1080$ pixels of resolution;
+	\item Canon IXUS 950 IS high resolution camera that provides RGB images of $3264\times2448$ pixels of resolution.
 \end{itemize}
 
 All the three sensors have been mounted on a fixed structure and a rotating turntable with the objects on top has been built for positioning and rotating the training and test scenes. Examples of acquired scenes are in Figure \ref{fig:tless_ex_scene}.
@@ -259,7 +259,7 @@ All the objects presented in the T-LESS dataset are also shown here in Figure \r
 \begin{enumerate}
 	\item A dense 3D model of the scene was reconstructed with the system from \cite{steinbrucker2014volumetric}. This was accomplished using all 504 RGB-D images of the scene along with the sensor poses estimated using the turntable markers;
 	\item The CAD models were then manually aligned to the scene model;
-	\item To increase accuracy, high-resolution images from Canon camera sensor were used to refine manually all the detected misalignments;
+	\item To increase accuracy, high-resolution images from Canon camera sensor were used to refine manually all the detected misalignment;
 	\item The final poses were distributed to all the test images with the aid of the known camera-to-turntable coordinate transformations.
 \end{enumerate}
 
@@ -276,7 +276,7 @@ MVTec Industrial 3D Object Detection Dataset, MVTec ITODD \cite{hodan20166DPoseE
 The sensors used during the acquisition of the scenes are composed as follow:
 
 \begin{itemize}
-	\item High-Quality 3D sensor: a multi-shot 3D stereo sensor that provided both a depth image and a grayscale image with the same viewpoint of the previous one. This sensor also provided high-quality 3D reconstructed cloud of the scene by using multiple random projected patterns and a spacetime stereo approach for reconstructing the scene with an accuracy of around 100 $\mu m$;
+	\item High-Quality 3D sensor: a multi-shot 3D stereo sensor that provided both a depth image and a grayscale image with the same viewpoint of the previous one. This sensor also provided high-quality 3D reconstructed cloud of the scene by using multiple random projected patterns and a space-time stereo approach for reconstructing the scene with an accuracy of around 100 $\mu m$;
 	\item Low-Quality 3D sensor: very similar to the previous sensor but with a shorter baseline, a wider field of view and less shots per scene. Given those features, the 3D reconstructed scene is much more noisy than the previous one, with an accuracy of around 1-2 mm;
 	\item 3 High.Resolution Cameras: they provided grayscale images, and the scenes where captured twice, one time with the random patterns and the last time without. 
 \end{itemize}
