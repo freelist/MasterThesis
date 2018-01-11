@@ -92,9 +92,9 @@ The training of the $YOLO_O$ network has been conducted using the set of paramet
     \label{fig:m20_100_halcon_detection_problems}
 \end{figure}
 \subsubsection{Shape Based Approach}
-As already anticipated, each result will be presented differentiating for each class of the considered objects. The \tabref{tab:big_table_results} show the accuracy results in terms of Intersection over Union (IoU) for each of the involved object, look at the section referred to Shape Based Approach.
+As already anticipated, each result will be presented differentiating for each class of the considered objects. The \tabref{tab:big_table_results} show the accuracy results in terms of Intersection over Union (IoU) for each of the involved object, look at the section referred to Shape Based Approach. In \tabref{tab:table_5cm_5deg} is also reported the percentage of the \emph{5cm,5deg} criteria satisfaction, this criteria has been introduced in Sec. \ref{subsec:5cm5deg}. In particular we reported the scores in terms of $\dfrac{num\_correct\_locs}{num\_imgs}$, where $num\_correct\_locs$ is the total number of time the localized pose has satisfied the aforementioned criteria, while testing on $num\_imgs$ total images.
 
-As expected, the performances slightly increase when including in the search procedure the highest number of candidates. That is essentially due to the fact that not always the first best candidate, namely the object with the highest score, is exactly the object that we are looking for. If we compare more than one candidate with the ground truth bounding box we find that for some classes of objects, like the \emph{M20\_100}, only when we consider 5 candidates we achieve to detect the actual object, and even in such cases, the one that has the highest score is not the right object (See. \figref{fig:m20_100_halcon_detection_problems} for a better visualization of the described problem).
+As expected, the performances slightly increase when including in the search procedure the highest number of candidates. That is essentially due to the fact that not always the first best candidate, namely the object with the highest score, is exactly the object that we are looking for. If we compare more than one candidate with the ground truth bounding box we find that for some classes of objects, like the \emph{M20\_100}, only when we consider 5 candidates we achieve to detect the actual object, and even in such cases, the one that has the highest score is not the right object (See. \figref{fig:m20_100_halcon_detection_problems} for a better visualization of the described problem). Moreover, from the results in \tabref{tab:table_5cm_5deg} it is clearly visible that some object classes, like the \emph{Cover\_plate\_BOX} are basically never well localized, even if this goes in contrast with the results of IoU score in \tabref{tab:big_table_results}. This means that the pose does not satisfy the \emph{5cm,5deg} criteria, but the bounding box is somehow acceptable, and this can only be explained by the fact that the shape based approach basically always detected the \emph{Cover\_plate\_box} flipped, so the bounding box is correct while the pose is completely flippet w.r.t. the ground truth position.
 
 \begin{table}
  \centering
@@ -114,6 +114,25 @@ As expected, the performances slightly increase when including in the search pro
    \end{tabular} 
    \caption{\textbf{IoU Average results}: the table reports the results in terms of IoU Average (Intersection over Union Average) of all the tested methods. Results are reported by object class organized in columns by Shape Based Approach and Deep Learning Approach. Shape Based Approach results are reported by number of candidates used for the detection.}
  \label{tab:big_table_results}
+\end{table}
+
+\begin{table}
+ \centering
+   \begin{tabular}{ llllll }
+   &\multicolumn{5}{c}{ \textbf{Shape Based} } \\
+   \cmidrule(lr){2-6}
+   \textbf{Obj Class} & \emph{1Cand} & \emph{2Cand} & \emph{3Cand} &\emph{4Cand} & \emph{5Cand} \\
+   \cmidrule(lr){1-6}   
+   \emph{Distance\_tube} & 1.0 & 1.0 & 1.0 & 1.0 & 1.0 \\ 
+   \emph{M20} & 0.83 & 0.83 & 0.83 & 0.83 & 1.0 \\ 
+   \emph{M20\_100} & 0.0 & 0.0 & 0.83 & 0.83 & 0.83 \\
+   \emph{Cover\_plate\_BOX} & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+   \emph{S40\_40\_G} & 0.5 & 0.5 & 0.5 & 0.5 & 0.67 \\
+%   \vspace{0.025cm} \\
+%   \cline{1-8} \\
+   \end{tabular} 
+   \caption{\textbf{5cm,5deg criteria evaluation}: The table reports the percentage of the \emph{5cm,5deg} criteria satisfaction. In particular here we reported the scores in terms of $num\_correct\_locs / num\_imgs$, where $num\_correct\_locs$ is the total number of time the localized pose has satisfied the aforementioned criteria.}
+ \label{tab:table_5cm_5deg}
 \end{table}
 
 %\begin{table}[!hbt]
